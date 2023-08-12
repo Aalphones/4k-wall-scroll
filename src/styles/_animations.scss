@@ -1,0 +1,53 @@
+@mixin spinning {
+  @keyframes spin {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  animation: spin 1.2s infinite normal ease;
+}
+
+@mixin slide-in-top {
+  @keyframes slide-in-top {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0)
+    }
+  }
+
+  animation: slide-in-top 0.3s 1 normal ease;
+}
+
+@mixin jumping {
+  @keyframes jump {
+    0% {
+      transform: scale(1, 1) translateY(0);
+    }
+    10% {
+      transform: scale(1.1, 0.9) translateY(0);
+    }
+    30% {
+      transform: scale(0.9, 1.1) translateY(-10px);
+    }
+    50% {
+      transform: scale(1.05, 0.95) translateY(0);
+    }
+    57% {
+      transform: scale(1, 1) translateY(-7px);
+    }
+    64% {
+      transform: scale(1, 1) translateY(0);
+    }
+    100% {
+      transform: scale(1, 1) translateY(0);
+    }
+  }
+
+  animation: jump 1.8s infinite normal ease;
+}

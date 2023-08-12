@@ -1,0 +1,16 @@
+a {
+  color: var(--secondary);
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--highlight);
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary)
+}

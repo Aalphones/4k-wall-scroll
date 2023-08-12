@@ -1,0 +1,27 @@
+:root {
+    --primary: #256D85;
+    --secondary: #47B5FF;
+    --highlight: #06283D;
+  
+    --submit: #285430;
+    --cancel: #DC0000;
+  
+    --text: #2c2c2c;
+    --background: #eeeeee;
+    --navigation-background: #EEE3CB;
+  
+    --gray-1: #e6e3e0;
+    --gray-2: #a0a5a9;
+    --gray-3: #6c6e68;
+    --gray-4: #374151;
+  
+    --spacing-1: calc(var(--spacing-3) * 0.25);
+    --spacing-2: calc(var(--spacing-3) * 0.5);
+    --spacing-3: 1.6rem;
+    --spacing-4: calc(var(--spacing-3) * 1.5);
+    --spacing-5: calc(var(--spacing-3) * 3);
+  
+    --shadow-depth-1: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+    --shadow-depth-2: 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+    --shadow-depth-3:  0 8px 17px 2px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%), 0 5px 5px -3px rgb(0 0 0 / 20%);
+  }

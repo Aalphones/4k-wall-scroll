@@ -1,0 +1,7 @@
+@import "src/styles/mixins";
+
+select,
+input,
+textarea {
+  @include inputStyle();
+}
