@@ -1,0 +1,10 @@
+<h3 class="login-heading">Passwort eingeben</h3>
+
+<input
+  type="password"
+  placeholder="Passwort"
+  class="settings-password"
+  [(ngModel)]="password"
+  (keyup.enter)="login()"
+  autofocus
+/>

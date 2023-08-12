@@ -1,0 +1,12 @@
+<ng-container *ngIf="data$ | async as image; else error">
+  <img class="detail-image" [src]="image.data" />
+  <app-metadata
+    class="detail-meta"
+    [image]="image"
+    [tags]="(tags$ | async) ?? []"
+  ></app-metadata>
+</ng-container>
+
+<ng-template #error>
+  <span> Es wurden keine Daten gefunden für {{ id$ | async }} </span>
+</ng-template>

@@ -1,0 +1,24 @@
+@import "src/styles/mixins";
+@import 'src/styles/variables';
+
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2);
+}
+
+.upload-imageRoll {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--spacing-2);
+
+    @media only screen and (max-width: $breakpoint) {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.upload-submitBtn {
+    @include button();
+}

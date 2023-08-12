@@ -1,0 +1,38 @@
+@import 'src/styles/variables';
+
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    overflow: hidden;
+    height: 100%
+}
+
+.imageRoll-filter {
+    padding: var(--spacing-2);
+}
+
+.imageRoll-roll {
+    display: block;
+    column-width: 18rem;
+    column-gap: 1em;
+    padding: var(--spacing-2);
+    overflow: auto;
+    flex: 1;
+
+    @media only screen and (max-width: $breakpoint) {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-2)
+    }
+}
+
+.imageRoll-img {
+    height: 40rem;
+    break-inside: avoid;
+
+    @media only screen and (max-width: $breakpoint) {
+        height: auto;
+        width: 100%;
+    }
+}

@@ -4,6 +4,13 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "@app/models": ["src/app/models/index.ts"],
+      "@app/services": ["src/app/services/index.ts"],
+      "@app/store": ["src/app/store/index.ts"],
+      "@app/utils": ["src/app/utils/index.ts"],
+      "@app/pipes": ["src/app/pipes/index.ts"],
+    },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
