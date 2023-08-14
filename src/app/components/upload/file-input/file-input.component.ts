@@ -98,20 +98,19 @@ export class FileInputComponent implements ControlValueAccessor {
 
     const exifData = await exifr.parse(file);
     if (extension === '.png') {
-      const thumbnail = await resizeImage(data);
-
       this.setResult({
         ...this.currentValue,
         original: data,
-        thumbnail,
         name,
         ...this.extraxtMetadata(exifData?.parameters),
       });
     } else {
       const { width, height } = await getDimensions(file);
+      const thumbnail = await resizeImage(data);
 
       this.setResult({
         ...this.currentValue,
+        thumbnail,
         width,
         height,
         data,

@@ -3,10 +3,10 @@
 :host {
     padding: var(--spacing-2);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: var(--spacing-2);
     overflow: hidden;
-    align-items: flex-start;
+    align-items: center;
 
     @media only screen and (max-width: 1300px) {
         flex-direction: column;
@@ -22,6 +22,26 @@
         max-width: 100%;
         max-height: unset;
     }
+}
+
+.detail-name {
+    margin: 0;
+}
+
+.detail-tags {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--spacing-1);
+}
+
+.detail-tags-item {
+    background-color: var(--gray-2);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--spacing-3);
+    transition: all 0.3s ease;
+    line-height: 1.2rem;
+    user-select: none;
 }
 
 .detail-meta {

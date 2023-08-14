@@ -83,6 +83,9 @@ export class AppEffects {
     this.actions$.pipe(
       ofType(appActions.updateImage, appActions.addImage),
       concatMap(({ image }) => {
+        this.store(image, this.imageObjectKey);
+
+        return of(appActions.updateImageSuccess({ image }));
         return this.saveImage$(image).pipe(
           map((response: StableImage) => {
             const updatedImage: StableImage = {

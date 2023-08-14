@@ -24,21 +24,26 @@ function base64_to_disk($base64_string, $output_file)
 }
 
 if (strpos($stableImage->data, ".png") === false && strpos($stableImage->thumbnail, ".thumb.jpg") === false) {
-	$thumb_file = $path . '../../thumbnails/' . $_POST["id"] . '.thumb.jpg';
+	$thumb_file = $path . '../../wallpaper/thumbnails/' . $_POST["id"] . '.thumb.jpg';
 	base64_to_disk($_POST["thumbnail"], $thumb_file);
 
-	$image_file = $path . '../../images/' . $_POST["id"] . '.png';
+	$image_file = $path . '../../wallpaper/' . $_POST["id"] . '.jpg';
 	base64_to_disk($_POST["data"], $image_file);
 
+	$original_file = $path . '../../wallpaper/original/' . $_POST["id"] . '.original.png';
+	base64_to_disk($_POST["original"], $image_file);
+
 	$stableImage = (object)$_POST;
-	$stableImage->data = $path . './images/' . $_POST["id"] . '.png';
-	$stableImage->thumbnail = $path . './thumbnails/' . $_POST["id"] . '.thumb.jpg';
+	$stableImage->data = $path . './wallpaper/' . $_POST["id"] . '.png';
+	$stableImage->thumbnail = $path . './wallpaper/thumbnails/' . $_POST["id"] . '.thumb.jpg';
+	$stableImage->original = $path . './wallpaper/original/' . $_POST["id"] . '.original.jpg';
 }
 
-$sql = "REPLACE INTO wallpaper(id, data, thumbnail, name, createdAt, width, height, tags, positivePrompt, negativePrompt, steps, sampler, cfg, seed, model) VALUES(" .
+$sql = "REPLACE INTO wallpaper(id, data, thumbnail, original, name, createdAt, width, height, tags, positivePrompt, negativePrompt, steps, sampler, cfg, seed, model) VALUES(" .
 	"{$stableImage->id}, " .
 	"'{$stableImage->data}', " .
 	"'{$stableImage->thumbnail}', " .
+	"'{$stableImage->original}', " .
 	"'{$stableImage->name}', " .
 	"'{$stableImage->createdAt}', " .
 	"{$stableImage->width}, " .

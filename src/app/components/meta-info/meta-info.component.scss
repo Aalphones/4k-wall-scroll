@@ -2,31 +2,6 @@
 @import 'src/styles/variables';
 
 :host {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-2);
-}
-
-.detailMeta-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-2);
-    flex: 1;
-
-    @media only screen and (max-width: $breakpoint) {
-        display: flex;
-        flex-direction: column;
-    }
-}
-
-.detailMeta-preview,
-.detailMeta-titleInput,
-.detailMeta-tagInput {
-    grid-column: 1 / 3;
-}
-
-.detailMeta-metaInfo {
-    flex: 1;
     user-select: none;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -44,38 +19,40 @@
     }
 }
 
-.detailMeta-metaInfo-prompt{
+.metaInfo-prompt{
     cursor: pointer;
 }
 
-.detailMeta-prompts {
-    flex-basis: 100%;
+.metaInfo-prompts {
+    grid-column: 1 / 3;
     display: flex;
     flex-direction: row;
     gap: var(--spacing-2);
+    white-space: wrap;
 
     @media only screen and (max-width: $breakpoint) {
         flex-direction: column;
     }
 }
 
-.detailMeta-prompts-prompt,
-.detailMeta-prompts-negativePrompt {
+.metaInfo-prompts-prompt,
+.metaInfo-prompts-negativePrompt {
     display: flex;
+    flex: 1;
     gap: var(--spacing-2);
 }
 
-.detailMeta-deleteDialog-cancelBtn,
-.detailMeta-deleteDialog-deleteBtn,
-.detailMeta-deleteBtn {
+.metaInfo-deleteDialog-cancelBtn,
+.metaInfo-deleteDialog-deleteBtn,
+.metaInfo-deleteBtn {
     @include button()
 }
 
-.detailMeta-deleteDialog-cancelBtn {
+.metaInfo-deleteDialog-cancelBtn {
     background-color: var(--gray-2);
 }
 
-.detailMeta-deleteDialog {
+.metaInfo-deleteDialog {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -83,7 +60,7 @@
     justify-content: center;
 }
 
-.detailMeta-deleteDialog-message {
+.metaInfo-deleteDialog-message {
     flex-basis: 100%;
     text-align: center;
 }

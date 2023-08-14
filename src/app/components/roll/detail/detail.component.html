@@ -1,10 +1,17 @@
 <ng-container *ngIf="data$ | async as image; else error">
   <img class="detail-image" [src]="image.data" />
-  <app-metadata
-    class="detail-meta"
-    [image]="image"
-    [tags]="(tags$ | async) ?? []"
-  ></app-metadata>
+
+  <h4 class="detail-name">
+    {{ image.name }}
+  </h4>
+
+  <section class="detail-tags">
+    <article *ngFor="let tag of image.tags" class="detail-tags-item">
+      {{ tag }}
+    </article>
+  </section>
+
+  <app-meta-info class="detail-meta" [image]="image"></app-meta-info>
 </ng-container>
 
 <ng-template #error>

@@ -15,29 +15,6 @@
     {{ image.model }}
   </span>
 
-  <!-- Prompt -->
-  <span
-    class="metaInfo-prompt"
-    [attr.title]="image.positivePrompt"
-    (dblclick)="onCopy(image.positivePrompt)"
-  >
-    <fa-icon [icon]="promptIcon" class="metaInfo-model-icon"></fa-icon>
-    {{ image.positivePrompt }}
-  </span>
-
-  <!-- Negative Prompt -->
-  <span
-    class="metaInfo-negativePrompt"
-    [attr.title]="image.negativePrompt"
-    (dblclick)="onCopy(image.negativePrompt)"
-  >
-    <fa-icon
-      [icon]="negativePromptIcon"
-      class="metaInfo-negativePrompt-icon"
-    ></fa-icon>
-    {{ image.negativePrompt }}
-  </span>
-
   <!-- CFG -->
   <span class="metaInfo-cfg">
     <fa-icon [icon]="cfgIcon" class="metaInfo-cfg-icon"></fa-icon>
@@ -61,4 +38,32 @@
     <fa-icon [icon]="samplerIcon" class="metaInfo-sampler-icon"></fa-icon>
     {{ image.sampler }}
   </span>
+
+  <section class="metaInfo-prompts">
+    <!-- Prompt -->
+    <span
+      class="metaInfo-prompts-prompt"
+      [attr.title]="image.positivePrompt"
+      (dblclick)="onCopy(image.positivePrompt)"
+    >
+      <fa-icon
+        [icon]="promptIcon"
+        class="metaInfo-prompts-model-icon"
+      ></fa-icon>
+      {{ image.positivePrompt }}
+    </span>
+
+    <!-- Negative Prompt -->
+    <span
+      class="metaInfo-prompts-negativePrompt"
+      [attr.title]="image.negativePrompt"
+      (dblclick)="onCopy(image.negativePrompt)"
+    >
+      <fa-icon
+        [icon]="negativePromptIcon"
+        class="metaInfo-prompts-negativePrompt-icon"
+      ></fa-icon>
+      {{ image.negativePrompt }}
+    </span>
+  </section>
 </ng-template>
