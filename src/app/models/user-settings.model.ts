@@ -2,7 +2,7 @@ export interface UserSettings {
   appPassword: string | null;
 }
 
-export const userSettingsKey = 'scroller-user-settings';
+export const userSettingsKey = '4k-wall-scroll-user-settings';
 
 export function storeSettings(settings: UserSettings): void {
   const serializedState = JSON.stringify(settings);
