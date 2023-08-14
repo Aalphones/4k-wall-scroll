@@ -19,7 +19,7 @@ export class AppEffects {
       ofType(appActions.saveImages),
       switchMap(({ images }) => {
         return images.map((image: StableImage) =>
-          appActions.addImage({ image })
+          appActions.updateImage({ image })
         );
       })
     )

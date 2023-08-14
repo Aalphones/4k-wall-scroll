@@ -11,23 +11,14 @@ export const imageReducer = createReducer(
   INITIAL_STATE,
 
   // Data Handling
-  on(
-    appActions.addImage,
-    appActions.updateImage,
-    (state: AppState, { image }) => {
-      const data: ImagesMap = {
-        ...state.data,
-        [image.id]: image,
-      };
-      const pending = state.pending + 1;
+  on(appActions.addImage, appActions.updateImage, (state: AppState) => {
+    const pending = state.pending + 1;
 
-      return {
-        ...state,
-        data,
-        pending,
-      };
-    }
-  ),
+    return {
+      ...state,
+      pending,
+    };
+  }),
   on(appActions.updateImageSuccess, (state: AppState, { image }) => {
     const data: ImagesMap = {
       ...state.data,

@@ -34,9 +34,9 @@ if (strpos($stableImage->data, ".png") === false && strpos($stableImage->thumbna
 	base64_to_disk($_POST["original"], $image_file);
 
 	$stableImage = (object)$_POST;
-	$stableImage->data = $path . './wallpaper/' . $_POST["id"] . '.png';
+	$stableImage->data = $path . './wallpaper/' . $_POST["id"] . '.jpg';
 	$stableImage->thumbnail = $path . './wallpaper/thumbnails/' . $_POST["id"] . '.thumb.jpg';
-	$stableImage->original = $path . './wallpaper/original/' . $_POST["id"] . '.original.jpg';
+	$stableImage->original = $path . './wallpaper/original/' . $_POST["id"] . '.original.png';
 }
 
 $sql = "REPLACE INTO wallpaper(id, data, thumbnail, original, name, createdAt, width, height, tags, positivePrompt, negativePrompt, steps, sampler, cfg, seed, model) VALUES(" .

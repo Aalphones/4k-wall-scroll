@@ -19,8 +19,8 @@ export class AppStateFacade {
 
   constructor(private store$: Store<AppState>) {}
 
-  add(...images: StableImage[]): void {
-    this.store$.dispatch(appActions.saveImages({ images }));
+  add(image: StableImage): void {
+    this.store$.dispatch(appActions.addImage({ image }));
   }
 
   delete(image: StableImage): void {
