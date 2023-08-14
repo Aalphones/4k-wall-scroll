@@ -1,18 +1,11 @@
-<app-file-input class="upload-input" [(ngModel)]="files"></app-file-input>
+<app-file-input class="upload-input" [(ngModel)]="file"></app-file-input>
 
-<section class="upload-imageRoll">
-  <app-upload-form
-    class="upload-imageRoll-item"
-    *ngFor="let image of files"
-    [image]="image"
-    [tags]="tags$ | async"
-  ></app-upload-form>
-</section>
+<app-meta-info class="upload-metaData" [image]="file"></app-meta-info>
 
-<button
-  class="upload-submitBtn"
-  (click)="onSubmit()"
-  [disabled]="files.length === 0"
->
-  Speichern
-</button>
+<app-upload-form
+  class="upload-form"
+  [image]="file"
+  [tags]="tags$ | async"
+></app-upload-form>
+
+<button class="upload-submitBtn" (click)="onSubmit()">Speichern</button>

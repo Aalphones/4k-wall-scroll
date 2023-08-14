@@ -3,20 +3,21 @@
 
 :host {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: var(--spacing-2);
     padding: var(--spacing-2);
+    height: 100%;
 }
 
-.upload-imageRoll {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--spacing-2);
+.upload-metaData,
+.upload-form {
+    flex: 1;
+}
 
-    @media only screen and (max-width: $breakpoint) {
-        display: flex;
-        flex-direction: column;
-    }
+.upload-submitBtn,
+.upload-input {
+    flex-basis: 100%;
 }
 
 .upload-submitBtn {

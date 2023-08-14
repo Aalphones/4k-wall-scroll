@@ -5,7 +5,7 @@ export function getRandomId(): number {
 }
 
 export function getExtensionFromName(name: string): string {
-  const acceptedExtensions = ['.thumb.jpg', '.jpg', '.png', '.jpeg'];
+  const acceptedExtensions = ['.jpg', '.png', '.jpeg'];
 
   for (const extension of acceptedExtensions) {
     if (name.endsWith(extension)) {
@@ -13,7 +13,7 @@ export function getExtensionFromName(name: string): string {
     }
   }
 
-  return '.png';
+  return '.jpg';
 }
 
 export function sortData(

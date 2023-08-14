@@ -1,12 +1,10 @@
-<fa-icon [icon]="uploadIcon" class="fileInput-icon"></fa-icon>
+<img class="fileInput-preview" [src]="preview" />
 
 <input
   type="file"
   class="fileInput-input"
-  [(ngModel)]="currentValue"
+  [(ngModel)]="uploadValue"
   (ngModelChange)="onFileChange()"
   multiple
   #input
 />
-
-<p class="fileInput-hint">Bilder hierhin ziehen oder Klicken für Upload</p>

@@ -16,7 +16,7 @@ export class LoginComponent {
     this.authGuard.password = this.password;
 
     if (this.authGuard.isAuthenticated) {
-      this.router.navigate(['']);
+      this.router.navigate(['upload']);
     }
   }
 }

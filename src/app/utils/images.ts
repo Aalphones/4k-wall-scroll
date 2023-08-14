@@ -10,9 +10,26 @@ async function loadImageAsBase64(imageBase64: string): Promise<string> {
   });
 }
 
+export async function getDimensions(
+  file: File
+): Promise<{ width: number; height: number }> {
+  return new Promise<{ width: number; height: number }>((resolve) => {
+    const _URL = window.URL || window.webkitURL;
+    const img = new Image();
+    const objectUrl = _URL.createObjectURL(file);
+
+    img.onload = () => {
+      resolve({ width: img.width, height: img.height });
+      _URL.revokeObjectURL(objectUrl);
+    };
+
+    img.src = objectUrl;
+  });
+}
+
 export async function resizeImage(
   imageBase64: string,
-  max = 600
+  max = 500
 ): Promise<string> {
   try {
     const imageBlobBase64 = await loadImageAsBase64(imageBase64);

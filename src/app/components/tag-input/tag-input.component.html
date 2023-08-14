@@ -1,0 +1,27 @@
+<span
+  class="tagInput-tag"
+  *ngFor="let tag of currentValue; let index = index"
+  (click)="onTagClick($event)"
+>
+  {{ tag }}
+
+  <fa-icon
+    [icon]="deleteIcon"
+    class="tagInput-tag-delete"
+    (click)="onDeleteTag(index, $event)"
+  ></fa-icon>
+</span>
+
+<input
+  #input
+  class="tagInput-input"
+  [(ngModel)]="inputValue"
+  (keyup.enter)="onInputEnter()"
+  [placeholder]="placeholder"
+  list="tagOptions"
+  (paste)="onInputPaste($event)"
+/>
+
+<datalist id="tagOptions" *ngIf="options" (keyup.enter)="onInputEnter()">
+  <option [value]="option" *ngFor="let option of options"></option>
+</datalist>

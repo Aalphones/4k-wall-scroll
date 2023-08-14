@@ -1,0 +1,48 @@
+@import "src/styles/mixins";
+
+:host {
+  display: flex;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  border: 1px solid var(--gray-2);
+  box-shadow: var(--shadow-depth-1);
+  border-radius: 4px;
+  padding: 0 var(--spacing-1);
+  background-color: white;
+  cursor: text;
+  align-items: flex-start;
+}
+
+.tagInput-tag {
+  background-color: var(--gray-2);
+  margin: var(--spacing-1);
+  padding: 0 var(--spacing-1);
+  border-radius: 4px;
+  font-size: var(--standard-text);
+  color: black;
+}
+
+.tagInput-tag-delete {
+  cursor: pointer;
+  font-size: var(--small-text);
+  margin-left: var(--spacing-1);
+
+  &:hover,
+  &:focus {
+    color: var(--cancel);
+  }
+}
+
+.tagInput-input {
+  display: block;
+  margin: var(--spacing-1) 0;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  width: 100%;
+
+  &::-webkit-calendar-picker-indicator {
+    display: none !important;
+  }
+  
+}

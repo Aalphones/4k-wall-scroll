@@ -4,16 +4,11 @@ import {
   forwardRef,
   HostBinding,
   HostListener,
-  Input,
   ViewChild,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormControl,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { createEmptyStableImage, StableImage } from '@app/models';
-import { getExtensionFromName, resizeImage } from '@app/utils';
+import { getDimensions, getExtensionFromName, resizeImage } from '@app/utils';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import exifr from 'exifr';
@@ -36,8 +31,6 @@ export class FileInputComponent implements ControlValueAccessor {
   @ViewChild('input')
   inputRef!: ElementRef<HTMLInputElement>;
 
-  @Input() control: FormControl = new FormControl(null);
-
   @HostListener('click', ['$event.target'])
   onClick() {
     this.inputRef.nativeElement.click();
@@ -48,10 +41,7 @@ export class FileInputComponent implements ControlValueAccessor {
     this.handleDragEnd(event);
     const files: FileList | undefined = event.dataTransfer?.files;
 
-    if (files && files?.length === 1) {
-      this.readFile(files[0]);
-      this.inputRef.nativeElement.value = '';
-    } else if (files && files?.length >= 1) {
+    if (files && files?.length >= 1) {
       this.readMultipleFiles(files);
     }
   }
@@ -66,22 +56,23 @@ export class FileInputComponent implements ControlValueAccessor {
     this.handleDragEnd(event);
   }
 
-  currentValue: StableImage[] | null = null;
+  currentValue: StableImage = createEmptyStableImage();
+  uploadValue = '';
 
-  @HostBinding('class.fileInput--draggedOver') private isDragging = false;
-  private multiUploadList: StableImage[] = [];
+  get preview(): string {
+    if (!this.currentValue.thumbnail) {
+      return './assets/unknown-image.jpg';
+    } else {
+      return this.currentValue.thumbnail;
+    }
+  }
+
+  @HostBinding('class.fileInput--draggedOver') private dragTimer: any = null;
 
   constructor() {}
 
-  _onChange: (_: StableImage[] | null) => void = () => {};
+  _onChange: (_: StableImage) => void = () => {};
   _onTouched: () => void = () => {};
-
-  onChange(nextValue: StableImage[] | null): void {
-    this._onChange(nextValue);
-    this.control.setValue(nextValue);
-
-    this._onTouched();
-  }
 
   onFileChange(): void {
     const files: FileList = this.inputRef.nativeElement.files!;
@@ -89,11 +80,11 @@ export class FileInputComponent implements ControlValueAccessor {
     this.readMultipleFiles(files);
   }
 
-  writeValue(value: StableImage[] | null): void {
-    this.currentValue = value ?? null;
+  writeValue(value: StableImage): void {
+    this.currentValue = value ?? createEmptyStableImage();
   }
 
-  registerOnChange(fn: (_: StableImage[] | null) => void): void {
+  registerOnChange(fn: (_: StableImage) => void): void {
     this._onChange = fn;
   }
 
@@ -106,16 +97,26 @@ export class FileInputComponent implements ControlValueAccessor {
     const name = file.name.replace(extension, '');
 
     const exifData = await exifr.parse(file);
-    const thumbnail = await resizeImage(data);
-    this.setResult({
-      ...createEmptyStableImage(),
-      data,
-      thumbnail,
-      name,
-      width: exifData?.ImageWidth ?? 0,
-      height: exifData?.ImageHeight ?? 0,
-      ...this.extraxtMetadata(exifData?.parameters),
-    });
+    if (extension === '.png') {
+      const thumbnail = await resizeImage(data);
+
+      this.setResult({
+        ...this.currentValue,
+        original: data,
+        thumbnail,
+        name,
+        ...this.extraxtMetadata(exifData?.parameters),
+      });
+    } else {
+      const { width, height } = await getDimensions(file);
+
+      this.setResult({
+        ...this.currentValue,
+        width,
+        height,
+        data,
+      });
+    }
   }
 
   private extraxtMetadata(parameters: string): Partial<StableImage> {
@@ -149,13 +150,19 @@ export class FileInputComponent implements ControlValueAccessor {
   private handleDragEnd(event: DragEvent): void {
     event.stopPropagation();
     event.preventDefault();
-    this.isDragging = false;
+    this.dragTimer = null;
   }
 
   private handleDragStart(event: DragEvent): void {
     event.stopPropagation();
     event.preventDefault();
-    this.isDragging = true;
+
+    if (this.dragTimer !== null) {
+      clearTimeout(this.dragTimer);
+    }
+    this.dragTimer = setTimeout(() => {
+      this.dragTimer = null;
+    }, 500);
   }
 
   private readFile(file: File): void {
@@ -173,8 +180,6 @@ export class FileInputComponent implements ControlValueAccessor {
   }
 
   private readMultipleFiles(files: FileList): void {
-    this.multiUploadList = [];
-
     for (let index = 0; index < files.length; index++) {
       this.readFile(files[index]);
     }
@@ -184,8 +189,9 @@ export class FileInputComponent implements ControlValueAccessor {
 
   private setResult(result: StableImage): void {
     if (result) {
-      this.multiUploadList.push(result);
-      this.onChange(this.multiUploadList);
+      this.currentValue = result;
+      this._onChange(result);
+      this._onTouched();
     }
   }
 }

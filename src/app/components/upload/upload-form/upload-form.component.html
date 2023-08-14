@@ -1,5 +1,3 @@
-<img class="uploadForm-preview" [src]="image.thumbnail" />
-
 <input
   type="text"
   placeholder="Bezeichnung"
@@ -7,78 +5,8 @@
   [(ngModel)]="image.name"
 />
 
-<section class="uploadForm-metaInfo" *ngIf="image.positivePrompt">
-  <!-- Resolution -->
-  <span class="uploadForm-metaInfo-resolution">
-    <fa-icon
-      [icon]="resolutionIcon"
-      class="uploadForm-metaInfo-resolution-icon"
-    ></fa-icon>
-    {{ image.width }} x {{ image.height }}
-  </span>
-
-  <!-- Model -->
-  <span class="uploadForm-metaInfo-model">
-    <fa-icon
-      [icon]="modelIcon"
-      class="uploadForm-metaInfo-model-icon"
-    ></fa-icon>
-    {{ image.model }}
-  </span>
-
-  <!-- Prompt -->
-  <span
-    class="uploadForm-metaInfo-prompt"
-    [attr.title]="image.positivePrompt"
-    (dblclick)="onCopy(image.positivePrompt)"
-  >
-    <fa-icon
-      [icon]="promptIcon"
-      class="uploadForm-metaInfo-model-icon"
-    ></fa-icon>
-    {{ image.positivePrompt }}
-  </span>
-
-  <!-- Negative Prompt -->
-  <span
-    class="uploadForm-metaInfo-negativePrompt"
-    [attr.title]="image.negativePrompt"
-    (dblclick)="onCopy(image.negativePrompt)"
-  >
-    <fa-icon
-      [icon]="negativePromptIcon"
-      class="uploadForm-metaInfo-negativePrompt-icon"
-    ></fa-icon>
-    {{ image.negativePrompt }}
-  </span>
-
-  <!-- CFG -->
-  <span class="uploadForm-metaInfo-cfg">
-    <fa-icon [icon]="cfgIcon" class="uploadForm-metaInfo-cfg-icon"></fa-icon>
-    {{ image.cfg }}
-  </span>
-
-  <!-- Seed -->
-  <span class="uploadForm-metaInfo-seed">
-    <fa-icon [icon]="seedIcon" class="uploadForm-metaInfo-seed-icon"></fa-icon>
-    {{ image.seed }}
-  </span>
-
-  <!-- Steps -->
-  <span class="uploadForm-metaInfo-steps">
-    <fa-icon
-      [icon]="stepsIcon"
-      class="uploadForm-metaInfo-steps-icon"
-    ></fa-icon>
-    {{ image.steps }}
-  </span>
-
-  <!-- Sampler -->
-  <span class="uploadForm-metaInfo-sampler">
-    <fa-icon
-      [icon]="samplerIcon"
-      class="uploadForm-metaInfo-sampler-icon"
-    ></fa-icon>
-    {{ image.sampler }}
-  </span>
-</section>
+<app-tag-input
+  class="uploadForm-tagInput"
+  [(ngModel)]="image.tags"
+  [options]="tags"
+></app-tag-input>

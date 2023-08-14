@@ -3,6 +3,7 @@ import { getRandomId } from '../utils/functions';
 interface BaseImage {
   id: number;
   data: string;
+  original: string;
   thumbnail: string;
   name: string;
   createdAt: Date;
@@ -27,6 +28,7 @@ export function createEmptyStableImage(): StableImage {
     id: getRandomId(),
     name: '',
     data: '',
+    original: '',
     thumbnail: '',
     createdAt: new Date(),
     updatedAt: new Date(),

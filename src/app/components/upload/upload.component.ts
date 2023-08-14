@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StableImage } from '@app/models';
+import { createEmptyStableImage, StableImage } from '@app/models';
 import { Observable } from 'rxjs';
 import { AppStateFacade } from 'src/app/store/app.facade';
 
@@ -9,13 +9,21 @@ import { AppStateFacade } from 'src/app/store/app.facade';
   styleUrls: ['./upload.component.scss'],
 })
 export class UploadComponent {
-  files: StableImage[] = [];
+  file: StableImage = createEmptyStableImage();
   tags$: Observable<string[]> = this.facade.tags$;
+
+  get preview(): string {
+    if (!this.file.thumbnail) {
+      return './assets/unknown-image.jpg';
+    } else {
+      return this.file.thumbnail;
+    }
+  }
 
   constructor(private facade: AppStateFacade) {}
 
   onSubmit(): void {
-    this.facade.add(...this.files);
-    this.files = [];
+    this.facade.add(this.file);
+    this.file = createEmptyStableImage();
   }
 }

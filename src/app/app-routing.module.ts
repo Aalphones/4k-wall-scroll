@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AboutComponent } from './components/about/about.component';
 import { LoginComponent } from './components/login/login.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { AuthGuardService } from './services';
@@ -9,6 +10,12 @@ const routes: Routes = [
     path: 'roll',
     loadChildren: () =>
       import('./components/roll/roll.module').then((m) => m.RollModule),
+  },
+  {
+    path: 'about',
+    loadChildren: () =>
+      import('./components/about/about.module').then((m) => m.AboutModule),
+    component: AboutComponent,
   },
   {
     path: 'upload',
