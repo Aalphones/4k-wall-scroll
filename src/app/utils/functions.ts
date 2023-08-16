@@ -5,7 +5,7 @@ export function getRandomId(): number {
 }
 
 export function getExtensionFromName(name: string): string {
-  const acceptedExtensions = ['.jpg', '.png', '.jpeg'];
+  const acceptedExtensions = ['.original.jpg', '.jpg', '.png', '.jpeg'];
 
   for (const extension of acceptedExtensions) {
     if (name.endsWith(extension)) {

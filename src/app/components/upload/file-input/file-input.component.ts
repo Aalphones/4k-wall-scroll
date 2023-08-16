@@ -98,7 +98,7 @@ export class FileInputComponent implements ControlValueAccessor {
 
     const exifData = await exifr.parse(data, true);
 
-    if (extension === '.png') {
+    if (extension === '.png' || extension === '.original.jpg') {
       this.setResult({
         ...this.currentValue,
         original: data,
