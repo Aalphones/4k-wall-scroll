@@ -1,3 +1,30 @@
+@import 'src/styles/variables';
+
+:host {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2);
+
+    @media only screen and (max-width: 1000px) {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media only screen and (max-width: $breakpoint) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-2)
+    }
+}
+
+.imageRoll-img {
+    @media only screen and (max-width: $breakpoint) {
+        width: 100%;
+    }
+}
+
 .imageRoll-img-preview {
     width: 100%;
 }

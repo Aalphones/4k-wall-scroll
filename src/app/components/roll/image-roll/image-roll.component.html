@@ -2,7 +2,7 @@
   class="imageRoll-img"
   *ngFor="let image of images"
   [href]="image.data"
-  [routerLink]="['/roll', image.id]"
+  [routerLink]="['', image.id]"
 >
   <img class="imageRoll-img-preview" [src]="image.thumbnail" />
 </a>

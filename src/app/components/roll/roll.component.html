@@ -1,2 +1,20 @@
-<app-image-roll class="imageRoll-roll" [images]="(data$ | async) ?? []">
+<app-filter
+  class="imageRoll-filter"
+  [tags]="(tags$ | async) ?? []"
+  [value]="filter$ | async"
+  sortType="number"
+  (update)="onUpdateFilter($event)"
+  storageKey="4kwall-filter"
+>
+</app-filter>
+
+<app-image-roll class="imageRoll-roll" [images]="(pagedData$ | async) ?? []">
 </app-image-roll>
+
+<app-pagination
+  class="imageRoll-pagination"
+  [currentPage]="(page$ | async) ?? 0"
+  [itemCount]="(itemCount$ | async) ?? 0"
+  [pageSize]="(pageSize$ | async) ?? 18"
+  (switchPage)="switchPage($event)"
+></app-pagination>
