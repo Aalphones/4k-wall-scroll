@@ -7,7 +7,7 @@ import { AuthGuardService } from './services';
 
 const routes: Routes = [
   {
-    path: 'roll',
+    path: '',
     loadChildren: () =>
       import('./components/roll/roll.module').then((m) => m.RollModule),
   },
@@ -30,7 +30,6 @@ const routes: Routes = [
       import('./components/login/login.module').then((m) => m.LoginModule),
     component: LoginComponent,
   },
-  { path: '', redirectTo: '/roll', pathMatch: 'full' },
   { path: '**', redirectTo: '/roll', pathMatch: 'full' },
 ];
 
