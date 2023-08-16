@@ -96,13 +96,14 @@ export class FileInputComponent implements ControlValueAccessor {
     const extension = getExtensionFromName(file.name);
     const name = file.name.replace(extension, '');
 
-    const exifData = await exifr.parse(file);
+    const exifData = await exifr.parse(data, true);
+
     if (extension === '.png') {
       this.setResult({
         ...this.currentValue,
         original: data,
         name,
-        ...this.extraxtMetadata(exifData?.parameters),
+        ...this.extraxtMetadata(exifData),
       });
     } else {
       const { width, height } = await getDimensions(file);
@@ -118,22 +119,27 @@ export class FileInputComponent implements ControlValueAccessor {
     }
   }
 
-  private extraxtMetadata(parameters: string): Partial<StableImage> {
+  private extraxtMetadata(exifData: any): Partial<StableImage> {
+    let parameters = exifData.parameters;
+    if (!parameters) {
+      parameters = new TextDecoder('utf-16be').decode(exifData.userComment);
+    }
+
     if (!parameters) {
       return {};
     }
 
     const parts = parameters.split('\n');
 
-    const positivePrompt = parts[0];
+    const positivePrompt = parts[0].replace('啎䥃佄䔀', '');
     const negativePrompt = parts[1].replace('Negative prompt: ', '');
 
     const generationData = parts[2].split(', ');
-    const steps = Number(generationData[0].replace('Steps: ', ''));
-    const sampler = generationData[1].replace('Sampler: ', '');
-    const cfg = Number(generationData[2].replace('CFG scale: ', ''));
-    const seed = Number(generationData[3].replace('Seed: ', ''));
-    const model = generationData[6].replace('Model: ', '');
+    const steps = Number(this.findAndReplace(generationData, 'Steps: '));
+    const sampler = this.findAndReplace(generationData, 'Sampler: ');
+    const cfg = Number(this.findAndReplace(generationData, 'CFG scale: '));
+    const seed = Number(this.findAndReplace(generationData, 'Seed: '));
+    const model = this.findAndReplace(generationData, 'Model: ');
 
     return {
       positivePrompt,
@@ -144,6 +150,14 @@ export class FileInputComponent implements ControlValueAccessor {
       seed,
       model,
     };
+  }
+
+  private findAndReplace(values: string[], searchStr: string): string {
+    const foundElement = values.find((value: string) =>
+      value.includes(searchStr)
+    );
+
+    return foundElement?.replace(searchStr, '') ?? '';
   }
 
   private handleDragEnd(event: DragEvent): void {
@@ -189,6 +203,7 @@ export class FileInputComponent implements ControlValueAccessor {
   private setResult(result: StableImage): void {
     if (result) {
       this.currentValue = result;
+
       this._onChange(result);
       this._onTouched();
     }

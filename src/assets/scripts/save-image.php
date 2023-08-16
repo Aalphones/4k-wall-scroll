@@ -31,7 +31,7 @@ if (strpos($stableImage->data, ".png") === false && strpos($stableImage->thumbna
 	base64_to_disk($_POST["data"], $image_file);
 
 	$original_file = $path . '../../wallpaper/original/' . $_POST["id"] . '.original.png';
-	base64_to_disk($_POST["original"], $image_file);
+	base64_to_disk($_POST["original"], $original_file);
 
 	$stableImage = (object)$_POST;
 	$stableImage->data = $path . './wallpaper/' . $_POST["id"] . '.jpg';

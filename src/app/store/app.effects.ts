@@ -157,6 +157,7 @@ export class AppEffects {
 
     formData.append('id', image.id.toString());
     formData.append('data', image.data);
+    formData.append('original', image.original);
     formData.append('thumbnail', image.thumbnail);
     formData.append('name', image.name);
     formData.append('createdAt', image.createdAt.toISOString());
