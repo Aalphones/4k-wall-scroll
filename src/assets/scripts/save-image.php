@@ -41,21 +41,21 @@ if (strpos($stableImage->data, ".png") === false && strpos($stableImage->thumbna
 
 $sql = "REPLACE INTO wallpaper(id, data, thumbnail, original, name, createdAt, width, height, tags, positivePrompt, negativePrompt, steps, sampler, cfg, seed, model) VALUES(" .
 	"{$stableImage->id}, " .
-	"'{$stableImage->data}', " .
-	"'{$stableImage->thumbnail}', " .
-	"'{$stableImage->original}', " .
-	"'{$stableImage->name}', " .
-	"'{$stableImage->createdAt}', " .
+	"\"{$stableImage->data}\", " .
+	"\"{$stableImage->thumbnail}\", " .
+	"\"{$stableImage->original}\", " .
+	"\"{$stableImage->name}\", " .
+	"\"{$stableImage->createdAt}\", " .
 	"{$stableImage->width}, " .
 	"{$stableImage->height}, " .
-	"'{$stableImage->tags}', " .
-	"'{$stableImage->positivePrompt}', " .
-	"'{$stableImage->negativePrompt}', " .
+	"\"{$stableImage->tags}\", " .
+	"\"{$stableImage->positivePrompt}\", " .
+	"\"{$stableImage->negativePrompt}\", " .
 	"{$stableImage->steps}, " .
-	"'{$stableImage->sampler}', " .
+	"\"{$stableImage->sampler}\", " .
 	"{$stableImage->cfg}, " .
 	"{$stableImage->seed}, " .
-	"'{$stableImage->model}'" .
+	"\"{$stableImage->model}\"" .
 	")";
 
 sqlExecute($sql);

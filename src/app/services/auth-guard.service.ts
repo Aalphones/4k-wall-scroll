@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { UserSettings, userSettingsKey } from '../models/user-settings.model';
+import {
+  retrieveSettings,
+  storeSettings,
+  UserSettings,
+  userSettingsKey,
+} from '../models/user-settings.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuardService implements CanActivate {
-  password = '';
+  password = this.retrievePassword();
 
   get isAuthenticated(): boolean {
-    const storedPassword = this.retrievePassword();
-
-    return !storedPassword || storedPassword === this.password;
+    return environment.password === this.password;
   }
 
   constructor(public router: Router) {}
@@ -23,6 +26,20 @@ export class AuthGuardService implements CanActivate {
     return true;
   }
 
+  login(appPassword: string): void {
+    const currentSettings = retrieveSettings();
+    storeSettings({
+      ...currentSettings,
+      appPassword,
+    });
+
+    this.password = appPassword;
+
+    if (this.isAuthenticated) {
+      this.router.navigate(['upload']);
+    }
+  }
+
   private retrievePassword(): string | null {
     const serializedSettings = localStorage.getItem(userSettingsKey);
 
@@ -31,6 +48,6 @@ export class AuthGuardService implements CanActivate {
       return parsed.appPassword;
     }
 
-    return environment.password;
+    return '';
   }
 }

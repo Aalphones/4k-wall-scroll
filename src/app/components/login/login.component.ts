@@ -13,10 +13,6 @@ export class LoginComponent {
   constructor(private authGuard: AuthGuardService, private router: Router) {}
 
   login(): void {
-    this.authGuard.password = this.password;
-
-    if (this.authGuard.isAuthenticated) {
-      this.router.navigate(['upload']);
-    }
+    this.authGuard.login(this.password);
   }
 }

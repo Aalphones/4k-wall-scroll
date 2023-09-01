@@ -3,13 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { SortingDirection, StableImage } from '@app/models';
 import { AppStateFacade } from '@app/store';
 import { sortData } from '@app/utils';
-import {
-  BehaviorSubject,
-  combineLatest,
-  map,
-  Observable,
-  shareReplay,
-} from 'rxjs';
+import { combineLatest, map, Observable, shareReplay, take } from 'rxjs';
 import { Filter } from './filter';
 
 @Component({
@@ -35,37 +29,30 @@ export class RollComponent {
         filter.searchText
       );
 
-      return sortData(byText, 'createdAt', filter.sort, true);
-    })
-  );
+      const sorted: StableImage[] = sortData(
+        byText,
+        'createdAt',
+        filter.sort,
+        true
+      );
 
-  page$: Observable<number> = this.route.queryParams.pipe(
-    map((params: Params) => {
-      if (params['page']) {
-        return Number(params['page']);
+      if (filter.pageSize === 0) {
+        return sorted;
       } else {
-        return 0;
+        return this.filterByPage(sorted, filter.page, filter.pageSize);
       }
     })
   );
-  pageSize$: BehaviorSubject<number> = new BehaviorSubject<number>(18);
+
+  page$: Observable<number> = this.filter$.pipe(
+    map((filter: Filter) => filter.page)
+  );
+  pageSize$: Observable<number> = this.filter$.pipe(
+    map((filter: Filter) => filter.pageSize)
+  );
 
   itemCount$: Observable<number> = this.data$.pipe(
     map((images: StableImage[]) => images.length)
-  );
-  pagedData$: Observable<StableImage[]> = combineLatest([
-    this.filteredData$,
-    this.page$,
-    this.pageSize$,
-  ]).pipe(
-    map(([images, page, pageSize]: [StableImage[], number, number]) => {
-      if (pageSize === 0) {
-        return images;
-      }
-
-      return this.filterByPage(images, page, pageSize);
-    }),
-    shareReplay()
   );
 
   tags$: Observable<string[]> = this.facade.tags$;
@@ -83,7 +70,9 @@ export class RollComponent {
   }
 
   switchPage(page: number): void {
-    this.router.navigate([this.baseRoute], { queryParams: { page } });
+    this.filter$.pipe(take(1)).subscribe((current) => {
+      this.onUpdateFilter({ ...current, page });
+    });
   }
 
   private filterByPage(
@@ -140,13 +129,17 @@ export class RollComponent {
     }
 
     const searchText = params['searchText'] ?? '';
-    const sort = params['sort'] ?? SortingDirection.ASC;
+    const sort = params['sort'] ?? SortingDirection.DESC;
+    const page = params['page'] ?? 0;
+    const pageSize = params['pageSize'] ?? 18;
 
     return {
       tags,
       option,
       searchText,
       sort,
+      page,
+      pageSize,
     };
   }
 }

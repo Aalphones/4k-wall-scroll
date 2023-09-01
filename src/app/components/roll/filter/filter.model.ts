@@ -10,6 +10,8 @@ export interface Filter<T = any> {
   sort: SortingDirection;
   tags: string[];
   option?: T | null;
+  page: number;
+  pageSize: number;
 }
 
 export const emptyFilter: Filter = {
@@ -17,4 +19,6 @@ export const emptyFilter: Filter = {
   sort: SortingDirection.ASC,
   tags: [],
   option: null,
+  page: 0,
+  pageSize: 18,
 };

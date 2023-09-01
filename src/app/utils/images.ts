@@ -29,7 +29,7 @@ export async function getDimensions(
 
 export async function resizeImage(
   imageBase64: string,
-  max = 500
+  targetSize = 500
 ): Promise<string> {
   try {
     const imageBlobBase64 = await loadImageAsBase64(imageBase64);
@@ -37,32 +37,29 @@ export async function resizeImage(
     return new Promise<string>((resolve) => {
       const img = new Image();
       img.onload = () => {
-        let newWidth = img.width;
-        let newHeight = img.height;
-
-        // Calculate the new dimensions while maintaining the aspect ratio
-        if (newWidth > max) {
-          const aspectRatio = img.width / img.height;
-          newWidth = max;
-          newHeight = newWidth / aspectRatio;
-        }
-
-        if (newHeight > max) {
-          const aspectRatio = img.height / img.width;
-          newHeight = max;
-          newWidth = newHeight / aspectRatio;
-        }
+        const imgSize: number = Math.min(img.width, img.height);
+        const left: number = (img.width - imgSize) / 2;
+        const top: number = (img.height - imgSize) / 2;
 
         // Create a canvas element
         const canvas = document.createElement('canvas');
-        canvas.width = newWidth;
-        canvas.height = newHeight;
+        canvas.width = targetSize;
+        canvas.height = targetSize;
 
         // Draw the image onto the canvas with the new dimensions
         const ctx = canvas.getContext('2d');
-        ctx!.fillStyle = '#fff'; /// set white fill style
-        ctx!.fillRect(0, 0, canvas.width, canvas.height);
-        ctx!.drawImage(img, 0, 0, newWidth, newHeight);
+
+        ctx!.drawImage(
+          img,
+          left,
+          top,
+          imgSize,
+          imgSize,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
 
         // Convert the canvas content back to a base64 string
         const resizedImageBase64 = canvas.toDataURL('image/jpeg');

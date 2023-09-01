@@ -1,13 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { SortingDirection } from '@app/models';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -26,11 +23,9 @@ import { emptyFilter, Filter } from './filter.model';
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss'],
 })
-export class FilterComponent<T> implements AfterViewInit, OnInit {
+export class FilterComponent<T> implements OnInit {
   readonly favIcon: IconProp = faThumbTack;
   readonly allTagsIcon: IconProp = faTags;
-
-  @ViewChild('input') input!: ElementRef<HTMLInputElement>;
 
   @Input() set sortType(type: 'abc' | 'number') {
     switch (type) {
@@ -100,10 +95,6 @@ export class FilterComponent<T> implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.favoriteTags = this.retrieveFavs();
-  }
-
-  ngAfterViewInit(): void {
-    this.input.nativeElement.focus();
   }
 
   onChange(): void {
