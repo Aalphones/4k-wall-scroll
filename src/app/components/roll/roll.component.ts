@@ -29,18 +29,7 @@ export class RollComponent {
         filter.searchText
       );
 
-      const sorted: StableImage[] = sortData(
-        byText,
-        'createdAt',
-        filter.sort,
-        true
-      );
-
-      if (filter.pageSize === 0) {
-        return sorted;
-      } else {
-        return this.filterByPage(sorted, filter.page, filter.pageSize);
-      }
+      return sortData(byText, 'createdAt', filter.sort, true);
     })
   );
 
@@ -51,13 +40,24 @@ export class RollComponent {
     map((filter: Filter) => filter.pageSize)
   );
 
-  itemCount$: Observable<number> = this.data$.pipe(
+  pagedData$: Observable<StableImage[]> = combineLatest([
+    this.filteredData$,
+    this.filter$,
+  ]).pipe(
+    map(([images, filter]: [StableImage[], Filter]) => {
+      if (filter.pageSize === 0) {
+        return images;
+      } else {
+        return this.filterByPage(images, filter.page, filter.pageSize);
+      }
+    })
+  );
+
+  itemCount$: Observable<number> = this.filteredData$.pipe(
     map((images: StableImage[]) => images.length)
   );
 
   tags$: Observable<string[]> = this.facade.tags$;
-
-  private baseRoute = '';
 
   constructor(
     private facade: AppStateFacade,
@@ -130,8 +130,8 @@ export class RollComponent {
 
     const searchText = params['searchText'] ?? '';
     const sort = params['sort'] ?? SortingDirection.DESC;
-    const page = params['page'] ?? 0;
-    const pageSize = params['pageSize'] ?? 18;
+    const page = params['page'] ? Number(params['page']) : 0;
+    const pageSize = params['pageSize'] ? Number(params['pageSize']) : 18;
 
     return {
       tags,
