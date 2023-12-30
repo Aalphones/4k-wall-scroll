@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ImagesMap, ImagesState, StableImage } from '@app/models';
+import { Franchise, ImagesMap, ImagesState, StableImage } from '@app/models';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
-import { franchisesActions } from './franchises';
+import { franchisesActions, franchisesSelectors } from './franchises';
 import { imagesActions } from './images/images.actions';
 import { imagesSelectors } from './images/images.selectors';
 
@@ -10,6 +10,10 @@ import { imagesSelectors } from './images/images.selectors';
   providedIn: 'root',
 })
 export class AppStateFacade {
+  franchises$: Observable<Franchise[]> = this.store$.select(
+    franchisesSelectors.selectFranchiseList
+  );
+
   images$: Observable<StableImage[]> = this.store$.select(
     imagesSelectors.selectImageList
   );
@@ -26,6 +30,10 @@ export class AppStateFacade {
 
   delete(image: StableImage): void {
     this.store$.dispatch(imagesActions.deleteImage({ id: image.id }));
+  }
+
+  getFranchiseDetail$(id: number): Observable<Franchise | null> {
+    return this.store$.select(franchisesSelectors.selectFranchiseDetail(id));
   }
 
   getFranchiseList(): void {

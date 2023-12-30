@@ -8,6 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {
+  AppEffects,
   FiguresEffects,
   figuresReducer,
   FranchisesEffects,
@@ -31,7 +32,12 @@ import {
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
     }),
-    EffectsModule.forRoot([ImagesEffects, FranchisesEffects, FiguresEffects]),
+    EffectsModule.forRoot([
+      AppEffects,
+      ImagesEffects,
+      FranchisesEffects,
+      FiguresEffects,
+    ]),
   ],
   providers: [],
   bootstrap: [AppComponent],

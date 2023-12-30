@@ -1,1 +1,7 @@
-<p>wiki works!</p>
+<section class="wiki-roll">
+  <app-wiki-preview
+    [data]="item"
+    class="wiki-roll-item"
+    *ngFor="let item of data$ | async"
+  ></app-wiki-preview>
+</section>

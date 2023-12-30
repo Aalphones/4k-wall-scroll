@@ -8,5 +8,6 @@ export const franchisesActions = createActionGroup({
     'Get List Success': props<{
       data: FranchisesMap;
     }>(),
+    'Get List Failure': emptyProps(),
   },
 });

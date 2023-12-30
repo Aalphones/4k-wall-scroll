@@ -25,5 +25,13 @@ export const franchisesReducer = createReducer(
       pending,
       data,
     };
+  }),
+  on(franchisesActions.getListFailure, (state: FranchisesState) => {
+    const pending = state.pending - 1;
+
+    return {
+      ...state,
+      pending,
+    };
   })
 );
