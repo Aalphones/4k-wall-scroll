@@ -1,25 +1,25 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ImagesState, StableImage } from '@app/models';
 import { faCheckCircle, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, concatMap, map, Observable, of, switchMap } from 'rxjs';
-import { AppState } from '../models/app-state.model';
-import { StableImage } from '../models/stable-image.model';
-import { appActions } from './app.actions';
-import { appSelectors } from './app.selectors';
+import { appActions } from '../app.actions';
+import { imagesActions } from './images.actions';
+import { imagesSelectors } from './images.selectors';
 
 @Injectable()
-export class AppEffects {
+export class ImagesEffects {
   readonly imageDatabaseKey = '4k-wall-scroll';
   readonly imageObjectKey = 'stable-images';
 
   onSave$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(appActions.saveImages),
+      ofType(imagesActions.saveImages),
       switchMap(({ images }) => {
         return images.map((image: StableImage) =>
-          appActions.updateImage({ image })
+          imagesActions.updateImage({ image })
         );
       })
     )
@@ -27,16 +27,16 @@ export class AppEffects {
 
   onFetch$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(appActions.getImages),
+      ofType(imagesActions.getImages),
       concatLatestFrom(() => [
-        this.store$.select(appSelectors.selectLatestUpdate),
+        this.store$.select(imagesSelectors.selectLatestUpdate),
       ]),
       switchMap(([, updatedAt]) => {
         return this.fetchImages$(updatedAt).pipe(
           map((images: StableImage[]) => {
             this.storeAll(images, this.imageObjectKey);
 
-            return appActions.setImages({
+            return imagesActions.setImages({
               images,
             });
           }),
@@ -55,7 +55,7 @@ export class AppEffects {
 
   onDelete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(appActions.deleteImage),
+      ofType(imagesActions.deleteImage),
       concatMap(({ id }) => {
         return this.deleteSynced$(id).pipe(
           map(() => {
@@ -81,7 +81,7 @@ export class AppEffects {
 
   onUpdate$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(appActions.updateImage, appActions.addImage),
+      ofType(imagesActions.updateImage, imagesActions.addImage),
       concatMap(({ image }) => {
         return this.saveImage$(image).pipe(
           map((response: StableImage) => {
@@ -91,10 +91,10 @@ export class AppEffects {
             };
             this.store(updatedImage, this.imageObjectKey);
 
-            return appActions.updateImageSuccess({ image: updatedImage });
+            return imagesActions.updateImageSuccess({ image: updatedImage });
           }),
           catchError(() => {
-            return of(appActions.updateImageFailure());
+            return of(imagesActions.updateImageFailure());
           })
         );
       })
@@ -105,7 +105,7 @@ export class AppEffects {
 
   constructor(
     private actions$: Actions,
-    private store$: Store<AppState>,
+    private store$: Store<ImagesState>,
     private http: HttpClient
   ) {
     this.initDatabase();
@@ -200,8 +200,8 @@ export class AppEffects {
     request.onsuccess = () => {
       const images: StableImage[] = request.result;
 
-      this.store$.dispatch(appActions.setImages({ images }));
-      this.store$.dispatch(appActions.getImages());
+      this.store$.dispatch(imagesActions.setImages({ images }));
+      this.store$.dispatch(imagesActions.getImages());
     };
   }
 

@@ -1,11 +1,10 @@
+import { ImagesMap, StableImage } from '@app/models';
 import { createFeature, createSelector } from '@ngrx/store';
-import { ImagesMap } from '../models/app-state.model';
-import { StableImage } from '../models/stable-image.model';
-import { imageReducer } from './app.reducer';
+import { imagesReducer } from './images.reducer';
 
 const imageFeature = createFeature({
   name: 'images',
-  reducer: imageReducer,
+  reducer: imagesReducer,
 });
 
 const selectAvailableTags = createSelector(
@@ -43,7 +42,7 @@ const selectLatestUpdate = createSelector(
   }
 );
 
-export const appSelectors = {
+export const imagesSelectors = {
   ...imageFeature,
   selectAvailableTags,
   selectImageList,

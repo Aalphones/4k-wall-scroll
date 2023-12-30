@@ -7,8 +7,14 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { imageReducer } from './store';
-import { AppEffects } from './store/app.effects';
+import {
+  FiguresEffects,
+  figuresReducer,
+  FranchisesEffects,
+  franchisesReducer,
+  ImagesEffects,
+  imagesReducer,
+} from './store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,11 +23,15 @@ import { AppEffects } from './store/app.effects';
     FontAwesomeModule,
     HttpClientModule,
     AppRoutingModule,
-    StoreModule.forRoot({ images: imageReducer }),
+    StoreModule.forRoot({
+      images: imagesReducer,
+      figures: figuresReducer,
+      franchises: franchisesReducer,
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
     }),
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([ImagesEffects, FranchisesEffects, FiguresEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],

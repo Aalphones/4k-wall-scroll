@@ -42,5 +42,6 @@ testem.log
 Thumbs.db
 
 # Passwords
-/src/assets/scripts/db.php
+/src/backend/db.php
+/src/environments/environment.ts
 /src/environments/environment.prod.ts

@@ -1,6 +1,6 @@
-import { StableImage } from './stable-image.model';
+import { StableImage } from '../stable-image.model';
 
-export interface AppState {
+export interface ImagesState {
   data: ImagesMap;
   pending: number;
 }

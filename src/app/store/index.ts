@@ -1,4 +1,5 @@
 export * from './app.actions';
 export * from './app.facade';
-export * from './app.reducer';
-export * from './app.selectors';
+export * from './figures';
+export * from './franchises';
+export * from './images';

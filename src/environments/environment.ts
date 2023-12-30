@@ -4,6 +4,7 @@
 
 export const environment = {
   password: '',
+  baseUrl: '',
 };
 
 /*

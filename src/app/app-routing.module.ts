@@ -26,9 +26,14 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: '',
+    path: 'roll',
     loadChildren: () =>
       import('./components/roll/roll.module').then((m) => m.RollModule),
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./components/wiki/wiki.module').then((m) => m.WikiModule),
   },
   { path: '**', redirectTo: '/roll', pathMatch: 'full' },
 ];

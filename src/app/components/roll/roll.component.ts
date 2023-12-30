@@ -12,7 +12,7 @@ import { Filter } from './filter';
   styleUrls: ['./roll.component.scss'],
 })
 export class RollComponent {
-  data$: Observable<StableImage[]> = this.facade.data$;
+  data$: Observable<StableImage[]> = this.facade.images$;
 
   filter$: Observable<Filter<number>> = this.route.queryParams.pipe(
     map((params: Params) => this.mapRouteParams(params)),
