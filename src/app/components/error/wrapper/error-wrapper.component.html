@@ -1,0 +1,15 @@
+<section class="loading" *ngIf="showLoading; else error">
+  <fa-icon [icon]="loadingIcon" class="loading-icon"></fa-icon>
+  Daten werden geladen
+</section>
+
+<ng-template #error>
+  <section class="error" *ngIf="showError; else content">
+    <fa-icon [icon]="errorIcon" class="error-icon"></fa-icon>
+    {{ message }}
+  </section>
+
+  <ng-template #content>
+    <ng-content></ng-content>
+  </ng-template>
+</ng-template>

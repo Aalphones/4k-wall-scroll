@@ -1,3 +1,4 @@
+import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -39,7 +40,16 @@ import {
       FiguresEffects,
     ]),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: DEFAULT_DIALOG_CONFIG,
+      useValue: {
+        hasBackdrop: true,
+        backdropClass: 'dialog-backdrop',
+        panelClass: 'dialog-container',
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

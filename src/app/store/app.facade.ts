@@ -13,6 +13,9 @@ export class AppStateFacade {
   franchises$: Observable<Franchise[]> = this.store$.select(
     franchisesSelectors.selectFranchiseList
   );
+  franchisesLoading$: Observable<boolean> = this.store$.select(
+    franchisesSelectors.selectDataLoading
+  );
 
   images$: Observable<StableImage[]> = this.store$.select(
     imagesSelectors.selectImageList
@@ -48,5 +51,9 @@ export class AppStateFacade {
 
   update(image: StableImage): void {
     this.store$.dispatch(imagesActions.updateImage({ image }));
+  }
+
+  updateFranchise(data: Franchise): void {
+    this.store$.dispatch(franchisesActions.update({ data }));
   }
 }

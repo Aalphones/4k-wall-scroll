@@ -11,10 +11,6 @@ export interface Person extends Name {
   birthday: string;
   nationality: string;
   height: number;
-  weight: number;
-  bust: number;
-  waist: number;
-  hips: number;
 }
 
 export function isPerson(toCheck: unknown): toCheck is Person {

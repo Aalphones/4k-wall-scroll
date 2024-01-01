@@ -2,6 +2,7 @@ import { Franchise } from '../franchise.model';
 
 export interface FranchisesState {
   data: FranchisesMap;
+  dataLoading: boolean;
   pending: number;
 }
 

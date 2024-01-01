@@ -8,9 +8,10 @@
   align-items: center;
   justify-content: center;
   justify-items: center;
+  gap: var(--spacing-2);
   box-sizing: border-box;
   border: 1px solid transparent;
-  border-radius: 2px;
+  border-radius: var(--spacing-1);
   padding: var(--spacing-2);
 
   &:hover,
@@ -23,6 +24,58 @@
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+}
+
+@mixin clear-btn-style {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: var(--spacing-2);
+  border-radius: 100%;
+  transition: all 0.3s ease;
+  user-select: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: larger;
+
+  &:hover, &:focus {
+    background-color: var(--primary);
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin previewSelect {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  color: var(--primary);
+
+  &:hover,
+  &:focus {
+    img {
+      box-shadow: var(--shadow-depth-3);
+      border: 3px solid var(--primary)
+    }
+  }
+
+  img {
+    height: 5rem;
+    margin: var(--spacing-1);
+    transition: box-shadow 0.3s ease;
+    border-radius: 100%;
+    box-shadow: var(--shadow-depth-1);
+    border: none;
+    box-sizing: border-box;
   }
 }
 

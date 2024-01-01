@@ -11,7 +11,7 @@ import { RollItem } from '../roll/roll-item.model';
 export class WikiPreviewComponent {
   @Input() set data(item: RollItem) {
     if (isFranchise(item)) {
-      this.preview = `${environment.mediaUrl}/franchise/${item.id}.jpg`;
+      this.preview = `${environment.mediaUrl}/franchise/cover/${item.id}.jpg`;
       this.routerLink = ['franchise', item.id.toString()];
       this.title = item.title;
     }

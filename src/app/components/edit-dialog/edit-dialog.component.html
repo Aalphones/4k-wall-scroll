@@ -1,0 +1,38 @@
+<h3 class="editDialog-heading">Datensatz bearbeiten</h3>
+
+<form [formGroup]="requestForm" class="editDialog-form">
+  <div
+    class="editDialog-wrapper"
+    *ngFor="let config of dialogData.config"
+    [ngSwitch]="config.type"
+  >
+    <label class="editDialog-label" [htmlFor]="config.key">
+      {{ config.label }}
+    </label>
+
+    <textarea
+      *ngSwitchCase="EditDialogType.TextArea"
+      [attr.id]="config.key"
+      class="editDialog-textArea"
+      [formControlName]="config.key"
+    ></textarea>
+
+    <input
+      type="text"
+      [attr.id]="config.key"
+      class="editDialog-input"
+      (keyup.enter)="onClose(true)"
+      [formControlName]="config.key"
+      *ngSwitchDefault
+    />
+  </div>
+</form>
+
+<section class="editDialog-actionBar">
+  <button class="editDialog-actionBar-cancel" (click)="onClose(false)">
+    Abbrechen
+  </button>
+  <button class="editDialog-actionBar-submit" (click)="onClose(true)">
+    Speichern
+  </button>
+</section>

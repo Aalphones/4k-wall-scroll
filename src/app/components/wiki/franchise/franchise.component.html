@@ -1,5 +1,17 @@
-<ng-container *ngIf="data$ | async as data; else error">
-  {{ data | json }}
-</ng-container>
-
-<ng-template #error> Daten nicht gefunden </ng-template>
+<app-error-wrapper
+  [showError]="!(data$ | async)"
+  [showLoading]="isLoading$ | async"
+  message="Franchise nicht gefunden"
+>
+  <section class="franchise-meta" *ngIf="data$ | async as data">
+    <img
+      class="franchise-meta-cover"
+      [src]="imageCover$ | async"
+      [alt]="data.title"
+    />
+    <p class="franchise-meta-description" [innerHTML]="data.description"></p>
+    <button class="franchise-meta-edit" (click)="onOpenDialog(data)">
+      <fa-icon [icon]="editIcon"></fa-icon>
+    </button>
+  </section>
+</app-error-wrapper>
