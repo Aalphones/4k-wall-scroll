@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "4k-wall-scroll:build:production"
+              "buildTarget": "4k-wall-scroll:build:production"
             },
             "development": {
-              "browserTarget": "4k-wall-scroll:build:development"
+              "buildTarget": "4k-wall-scroll:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "4k-wall-scroll:build"
+            "buildTarget": "4k-wall-scroll:build"
           }
         },
         "test": {
