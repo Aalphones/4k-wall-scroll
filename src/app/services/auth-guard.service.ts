@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {
   retrieveSettings,
@@ -9,7 +9,7 @@ import {
 } from '../models/user-settings.model';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuardService implements CanActivate {
+export class AuthGuardService  {
   password = this.retrievePassword();
 
   get isAuthenticated(): boolean {
