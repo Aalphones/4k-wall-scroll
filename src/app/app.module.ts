@@ -16,6 +16,8 @@ import {
   franchisesReducer,
   ImagesEffects,
   imagesReducer,
+  PersonsEffects,
+  personsReducer,
 } from './store';
 
 @NgModule({
@@ -29,6 +31,7 @@ import {
       images: imagesReducer,
       figures: figuresReducer,
       franchises: franchisesReducer,
+      persons: personsReducer,
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
@@ -38,6 +41,7 @@ import {
       ImagesEffects,
       FranchisesEffects,
       FiguresEffects,
+      PersonsEffects,
     ]),
   ],
   providers: [

@@ -1,17 +1,17 @@
-import { Figure, FiguresMap } from '@app/models';
+import { Person, PersonsMap } from '@app/models';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-export const figuresActions = createActionGroup({
-  source: 'Figures',
+export const personsActions = createActionGroup({
+  source: 'Person',
   events: {
     'Get List': emptyProps(),
     'Get List Success': props<{
-      data: FiguresMap;
+      data: PersonsMap;
     }>(),
     'Get List Failure': emptyProps(),
 
     Update: props<{
-      data: Figure;
+      data: Person;
     }>(),
     'Update Success': emptyProps(),
     'Update Failure': emptyProps(),

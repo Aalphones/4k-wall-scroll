@@ -34,9 +34,7 @@ export class FranchisesEffects implements OnInitEffects {
   }
 
   private fetchList$(): Observable<Franchise[]> {
-    return this.http.get<Franchise[]>(
-      `${environment.baseUrl}/franchise/list.php`
-    );
+    return this.http.get<Franchise[]>(`${environment.baseUrl}/franchise/`);
   }
 
   private mapList(data: Franchise[]): FranchisesMap {

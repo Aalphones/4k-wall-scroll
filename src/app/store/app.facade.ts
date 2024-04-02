@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Franchise, ImagesMap, ImagesState, StableImage } from '@app/models';
+import {
+  Figure,
+  Franchise,
+  ImagesMap,
+  ImagesState,
+  StableImage,
+} from '@app/models';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
+import { figuresActions, figuresSelectors } from './figures';
 import { franchisesActions, franchisesSelectors } from './franchises';
 import { imagesActions } from './images/images.actions';
 import { imagesSelectors } from './images/images.selectors';
@@ -10,11 +17,16 @@ import { imagesSelectors } from './images/images.selectors';
   providedIn: 'root',
 })
 export class AppStateFacade {
+  figures$: Observable<Figure[]> = this.store$.select(figuresSelectors.list);
+  figuresLoading$: Observable<boolean> = this.store$.select(
+    figuresSelectors.isLoading
+  );
+
   franchises$: Observable<Franchise[]> = this.store$.select(
-    franchisesSelectors.selectFranchiseList
+    franchisesSelectors.list
   );
   franchisesLoading$: Observable<boolean> = this.store$.select(
-    franchisesSelectors.selectDataLoading
+    franchisesSelectors.isLoading
   );
 
   images$: Observable<StableImage[]> = this.store$.select(
@@ -35,8 +47,16 @@ export class AppStateFacade {
     this.store$.dispatch(imagesActions.deleteImage({ id: image.id }));
   }
 
+  getFiguresDetail$(id: number): Observable<Figure | null> {
+    return this.store$.select(figuresSelectors.detail(id));
+  }
+
   getFranchiseDetail$(id: number): Observable<Franchise | null> {
-    return this.store$.select(franchisesSelectors.selectFranchiseDetail(id));
+    return this.store$.select(franchisesSelectors.detail(id));
+  }
+
+  getFiguresList(): void {
+    this.store$.dispatch(figuresActions.getList());
   }
 
   getFranchiseList(): void {

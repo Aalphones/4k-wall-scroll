@@ -7,7 +7,7 @@ const franchisesFeature = createFeature({
   reducer: franchisesReducer,
 });
 
-const selectFranchiseDetail = (id: number) =>
+const detail = (id: number) =>
   createSelector(franchisesFeature.selectData, (state: FranchisesMap) => {
     if (state[id]) {
       return state[id];
@@ -16,15 +16,23 @@ const selectFranchiseDetail = (id: number) =>
     }
   });
 
-const selectFranchiseList = createSelector(
+const list = createSelector(
   franchisesFeature.selectData,
   (state: FranchisesMap) => {
     return Object.values(state);
   }
 );
 
+const isLoading = createSelector(
+  franchisesFeature.selectPending,
+  (pending: number) => {
+    return pending > 0;
+  }
+);
+
 export const franchisesSelectors = {
   ...franchisesFeature,
-  selectFranchiseList,
-  selectFranchiseDetail,
+  list,
+  detail,
+  isLoading,
 };

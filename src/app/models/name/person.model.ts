@@ -1,5 +1,7 @@
 import { Name } from './base.model';
+import { FigureInfo } from './figure.model';
 import { Gender } from './gender.model';
+import { Nationality } from './nationality.model';
 
 export interface Person extends Name {
   profession: string;
@@ -9,8 +11,16 @@ export interface Person extends Name {
   gender: Gender;
   birtplace: string;
   birthday: string;
-  nationality: string;
+  nationality: Nationality;
   height: number;
+  figures: FigureInfo[];
+}
+
+export interface PersonInfo {
+  id: number;
+  figureId: number;
+  title: string;
+  description: string;
 }
 
 export function isPerson(toCheck: unknown): toCheck is Person {
