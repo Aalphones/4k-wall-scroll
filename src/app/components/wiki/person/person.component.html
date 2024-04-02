@@ -1,0 +1,17 @@
+<app-error-wrapper
+  [showError]="!(data$ | async)"
+  [showLoading]="isLoading$ | async"
+  message="Person nicht gefunden"
+>
+  <section class="person-meta" *ngIf="data$ | async as data">
+    <img
+      class="person-meta-cover"
+      [src]="imageCover$ | async"
+      [alt]="data.title"
+    />
+    <p class="person-meta-description" [innerHTML]="data.description"></p>
+    <button class="person-meta-edit" (click)="onOpenDialog(data)">
+      <fa-icon [icon]="editIcon"></fa-icon>
+    </button>
+  </section>
+</app-error-wrapper>

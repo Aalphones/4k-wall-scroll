@@ -4,19 +4,25 @@ import {
   Franchise,
   ImagesMap,
   ImagesState,
+  Person,
+  RollItem,
   StableImage,
 } from '@app/models';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
+import { appSelectors } from './app.selectors';
 import { figuresActions, figuresSelectors } from './figures';
 import { franchisesActions, franchisesSelectors } from './franchises';
 import { imagesActions } from './images/images.actions';
 import { imagesSelectors } from './images/images.selectors';
+import { personsActions, personsSelectors } from './persons';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppStateFacade {
+  data$: Observable<RollItem[]> = this.store$.select(appSelectors.list);
+
   figures$: Observable<Figure[]> = this.store$.select(figuresSelectors.list);
   figuresLoading$: Observable<boolean> = this.store$.select(
     figuresSelectors.isLoading
@@ -31,6 +37,11 @@ export class AppStateFacade {
 
   images$: Observable<StableImage[]> = this.store$.select(
     imagesSelectors.selectImageList
+  );
+
+  persons$: Observable<Person[]> = this.store$.select(personsSelectors.list);
+  personsLoading$: Observable<boolean> = this.store$.select(
+    personsSelectors.isLoading
   );
 
   tags$: Observable<string[]> = this.store$.select(
@@ -51,12 +62,12 @@ export class AppStateFacade {
     return this.store$.select(figuresSelectors.detail(id));
   }
 
-  getFranchiseDetail$(id: number): Observable<Franchise | null> {
-    return this.store$.select(franchisesSelectors.detail(id));
-  }
-
   getFiguresList(): void {
     this.store$.dispatch(figuresActions.getList());
+  }
+
+  getFranchiseDetail$(id: number): Observable<Franchise | null> {
+    return this.store$.select(franchisesSelectors.detail(id));
   }
 
   getFranchiseList(): void {
@@ -69,11 +80,27 @@ export class AppStateFacade {
       .pipe(map((imagesMap: ImagesMap) => imagesMap[id]));
   }
 
+  getPersonsDetail$(id: number): Observable<Person | null> {
+    return this.store$.select(personsSelectors.detail(id));
+  }
+
+  getPersonList(): void {
+    this.store$.dispatch(personsActions.getList());
+  }
+
   update(image: StableImage): void {
     this.store$.dispatch(imagesActions.updateImage({ image }));
   }
 
+  updateFigure(data: Figure): void {
+    this.store$.dispatch(figuresActions.update({ data }));
+  }
+
   updateFranchise(data: Franchise): void {
     this.store$.dispatch(franchisesActions.update({ data }));
+  }
+
+  updatePerson(data: Person): void {
+    this.store$.dispatch(personsActions.update({ data }));
   }
 }

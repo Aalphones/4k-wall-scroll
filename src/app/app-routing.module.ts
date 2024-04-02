@@ -35,7 +35,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/wiki/wiki.module').then((m) => m.WikiModule),
   },
-  { path: '**', redirectTo: '/roll', pathMatch: 'full' },
+  { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
 
 @NgModule({

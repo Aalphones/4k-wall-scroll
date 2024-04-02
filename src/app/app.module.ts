@@ -14,8 +14,6 @@ import {
   figuresReducer,
   FranchisesEffects,
   franchisesReducer,
-  ImagesEffects,
-  imagesReducer,
   PersonsEffects,
   personsReducer,
 } from './store';
@@ -28,7 +26,6 @@ import {
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot({
-      images: imagesReducer,
       figures: figuresReducer,
       franchises: franchisesReducer,
       persons: personsReducer,
@@ -38,7 +35,6 @@ import {
     }),
     EffectsModule.forRoot([
       AppEffects,
-      ImagesEffects,
       FranchisesEffects,
       FiguresEffects,
       PersonsEffects,

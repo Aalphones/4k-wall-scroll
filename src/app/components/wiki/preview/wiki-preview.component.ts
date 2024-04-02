@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { isFranchise } from '@app/models';
+import { isFranchise, isPerson, RollItem } from '@app/models';
 import { environment } from 'src/environments/environment.prod';
-import { RollItem } from '../roll/roll-item.model';
 
 @Component({
   selector: 'app-wiki-preview',
@@ -10,11 +9,11 @@ import { RollItem } from '../roll/roll-item.model';
 })
 export class WikiPreviewComponent {
   @Input() set data(item: RollItem) {
-    if (isFranchise(item)) {
-      this.preview = `${environment.mediaUrl}/franchise/cover/${item.id}.jpg`;
-      this.routerLink = ['franchise', item.id.toString()];
-      this.title = item.title;
-    }
+    const prefix = this.getPrefix(item);
+
+    this.preview = `${environment.mediaUrl}/${prefix}/preview/${item.id}.jpg`;
+    this.routerLink = [prefix, item.id.toString()];
+    this.title = item.title;
   }
 
   preview = '';
@@ -22,4 +21,14 @@ export class WikiPreviewComponent {
   title = '';
 
   constructor() {}
+
+  private getPrefix(item: RollItem): string {
+    if (isFranchise(item)) {
+      return 'franchise';
+    } else if (isPerson(item)) {
+      return 'person';
+    } else {
+      return 'figure';
+    }
+  }
 }

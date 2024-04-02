@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { RollItem } from '@app/models';
 import { AppStateFacade } from '@app/store';
-import { map, Observable } from 'rxjs';
-import { RollItem } from './roll/roll-item.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-wiki',
@@ -9,11 +9,7 @@ import { RollItem } from './roll/roll-item.model';
   styleUrls: ['./wiki.component.scss'],
 })
 export class WikiComponent {
-  data$: Observable<RollItem[]> = this.facade.franchises$.pipe(
-    map((franchises) => {
-      return franchises;
-    })
-  );
+  data$: Observable<RollItem[]> = this.facade.data$;
 
   constructor(private facade: AppStateFacade) {}
 }

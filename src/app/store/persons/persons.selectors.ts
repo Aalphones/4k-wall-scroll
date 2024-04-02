@@ -27,7 +27,7 @@ const isLoading = createSelector(
   }
 );
 
-export const personsSelectores = {
+export const personsSelectors = {
   ...personsFeature,
   detail,
   list,
