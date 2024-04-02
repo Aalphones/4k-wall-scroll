@@ -6,11 +6,11 @@ header("Content-Type:application/json; charset=utf-8");
 
 $data = (object)$_POST;
 
-$sql = "REPLACE INTO franchise(id, parentId, description, title) VALUES(" .
+$sql = "REPLACE INTO person_figure(id, personId, figureId, description) VALUES(" .
 	"{$data->id}, " .
-	"\"{$data->parentId}\", " .
-	"\"{$data->description}\", " .
-	"\"{$data->title}\"" .
+	"\"{$data->personId}\", " .
+	"\"{$data->figureId}\", " .
+	"\"{$data->description}\"" .
 	")";
 
 sqlExecute($sql);
