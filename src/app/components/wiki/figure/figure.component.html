@@ -1,7 +1,7 @@
 <app-error-wrapper
   [showError]="!(data$ | async)"
   [showLoading]="isLoading$ | async"
-  message="Person nicht gefunden"
+  message="Charakter nicht gefunden"
 >
   <section class="figure-meta" *ngIf="data$ | async as data">
     <img

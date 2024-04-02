@@ -16,6 +16,7 @@ person.hair,
 person.gender,
 person.birthplace,
 person.birthday,
+person.death,
 person.nationality AS nationality_id,
 nationality.name AS nationality_name,
 person.height,
@@ -50,6 +51,7 @@ foreach ($result as $row) {
 		'gender' => $row['gender'],
 		'birthday' => $row['birthday'],
 		'birthplace' => $row['birthplace'],
+		'death' => $row['death'],
 		'nationality' => array(
 			'id' => $row['nationality_id'],
 			'name' => $row['nationality_name']

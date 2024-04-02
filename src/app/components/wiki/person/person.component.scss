@@ -4,21 +4,38 @@
     padding: var(--spacing-2);
 }
 
-.person-meta {
-    display: flex;
-    flex-direction: row;
+.person {
+    position: relative;
+    display: grid;
     gap: var(--spacing-2);
-    align-items: center;
+    grid-template-columns: 1fr 2fr;
+
     @media only screen and (max-width: 1000px) {
-        flex-direction: column;
+        grid-template-columns: 1fr;
     }
 }
 
-.person-meta-cover {
-    flex: 1;
-    max-width: 20rem;
+.person-meta {
+    display: flex;
+    flex-direction: column;
 }
 
-.person-meta-edit {
+.person-meta-row {
+    label {
+        width: 10rem;
+        display: inline-block;
+        color: var(--secondary);
+        user-select: none;
+    }
+}
+
+.person-edit {
     @include clear-btn-style();
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.person-description {
+    grid-column: 1 / 3;
 }

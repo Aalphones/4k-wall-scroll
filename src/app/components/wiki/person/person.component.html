@@ -3,14 +3,23 @@
   [showLoading]="isLoading$ | async"
   message="Person nicht gefunden"
 >
-  <section class="person-meta" *ngIf="data$ | async as data">
-    <img
-      class="person-meta-cover"
-      [src]="imageCover$ | async"
-      [alt]="data.title"
-    />
-    <p class="person-meta-description" [innerHTML]="data.description"></p>
-    <button class="person-meta-edit" (click)="onOpenDialog(data)">
+  <section class="person" *ngIf="data$ | async as data">
+    <app-person-cover class="person-cover" [data]="data"></app-person-cover>
+
+    <section class="person-meta">
+      <p class="person-meta-row">
+        <label>Augenfarbe:</label>
+        {{ data.eye }}
+      </p>
+      <p class="person-meta-row">
+        <label>Haarfarbe:</label>
+        {{ data.hair }}
+      </p>
+      <app-gender class="person-meta-row" [gender]="data.gender"></app-gender>
+    </section>
+
+    <p class="person-description" [innerHTML]="data.description"></p>
+    <button class="person-edit" (click)="onOpenDialog(data)">
       <fa-icon [icon]="editIcon"></fa-icon>
     </button>
   </section>

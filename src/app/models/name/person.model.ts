@@ -9,8 +9,9 @@ export interface Person extends Name {
   eye: string;
   hair: string;
   gender: Gender;
-  birtplace: string;
+  birthplace: string;
   birthday: string;
+  death: string | null;
   nationality: Nationality;
   height: number;
   figures: FigureInfo[];

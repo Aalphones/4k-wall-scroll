@@ -6,7 +6,7 @@ header("Content-Type:application/json; charset=utf-8");
 
 $data = (object)$_POST;
 
-$sql = "REPLACE INTO person(id, title, description, profession, race, eye, hair, gender, birthplace, birthday, nationality, height) VALUES(" .
+$sql = "REPLACE INTO person(id, title, description, profession, race, eye, hair, gender, birthplace, birthday, death, nationality, height) VALUES(" .
 	"{$data->id}, " .
 	"\"{$data->title}\", " .
 	"\"{$data->description}\", " .
@@ -17,6 +17,7 @@ $sql = "REPLACE INTO person(id, title, description, profession, race, eye, hair,
 	"\"{$data->gender}\", " .
 	"\"{$data->birthplace}\", " .
 	"\"{$data->birthday}\", " .
+	"\"{$data->death}\", " .
 	"\"{$data->nationality}\", " .
 	"\"{$data->height}\"" .
 	")";
