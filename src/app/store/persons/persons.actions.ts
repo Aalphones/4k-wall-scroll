@@ -1,4 +1,4 @@
-import { Person, PersonsMap } from '@app/models';
+import { Nationality, Person, PersonsMap, PersonUpdate } from '@app/models';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const personsActions = createActionGroup({
@@ -10,10 +10,19 @@ export const personsActions = createActionGroup({
     }>(),
     'Get List Failure': emptyProps(),
 
-    Update: props<{
-      data: Person;
+    'Get Nationalities': emptyProps(),
+    'Get Nationalities Success': props<{
+      data: Nationality[];
     }>(),
-    'Update Success': emptyProps(),
+    'Get Nationalities Failure': emptyProps(),
+
+    INIT: emptyProps(),
+    Update: props<{
+      data: PersonUpdate;
+    }>(),
+    'Update Success': props<{
+      response: Person;
+    }>(),
     'Update Failure': emptyProps(),
   },
 });

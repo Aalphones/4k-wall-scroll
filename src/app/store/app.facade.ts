@@ -4,7 +4,9 @@ import {
   Franchise,
   ImagesMap,
   ImagesState,
+  Nationality,
   Person,
+  PersonUpdate,
   RollItem,
   StableImage,
 } from '@app/models';
@@ -38,6 +40,10 @@ export class AppStateFacade {
   isLoading$: Observable<boolean> = this.store$.select(appSelectors.loading);
   images$: Observable<StableImage[]> = this.store$.select(
     imagesSelectors.selectImageList
+  );
+
+  nationalities$: Observable<Nationality[]> = this.store$.select(
+    personsSelectors.selectNationalities
   );
 
   persons$: Observable<Person[]> = this.store$.select(personsSelectors.list);
@@ -101,7 +107,7 @@ export class AppStateFacade {
     this.store$.dispatch(franchisesActions.update({ data }));
   }
 
-  updatePerson(data: Person): void {
+  updatePerson(data: PersonUpdate): void {
     this.store$.dispatch(personsActions.update({ data }));
   }
 }

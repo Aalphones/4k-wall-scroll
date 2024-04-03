@@ -1,7 +1,8 @@
-import { Person } from '../name';
+import { Nationality, Person } from '../name';
 
 export interface PersonsState {
   data: PersonsMap;
+  nationalities: Nationality[];
   pending: number;
 }
 

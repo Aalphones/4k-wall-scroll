@@ -23,6 +23,12 @@ export interface PersonInfo {
   description: string;
 }
 
+export interface PersonUpdate extends Omit<Person, 'nationality'> {
+  nationality: number;
+  preview?: string;
+  image?: string;
+}
+
 export function isPerson(toCheck: unknown): toCheck is Person {
   if (typeof toCheck !== 'object' || toCheck === null) {
     return false;

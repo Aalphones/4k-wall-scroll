@@ -1,7 +1,11 @@
 import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
 import { FormControl, UntypedFormGroup } from '@angular/forms';
-import { EditDialogConfig, EditDialogType } from './edit-dialog.model';
+import {
+  EditDialogData,
+  EditDialogLayout,
+  EditDialogType,
+} from './edit-dialog.model';
 
 @Component({
   selector: 'app-edit-dialog',
@@ -11,16 +15,15 @@ import { EditDialogConfig, EditDialogType } from './edit-dialog.model';
 export class EditDialogComponent<T = any> {
   readonly EditDialogType = EditDialogType;
 
+  isGridView = false;
   requestForm: UntypedFormGroup = new UntypedFormGroup({});
 
   constructor(
     private dialogRef: DialogRef<Partial<T> | null>,
     @Inject(DIALOG_DATA)
-    public dialogData: { data: T; config: EditDialogConfig[] }
+    public dialogData: EditDialogData<T>
   ) {
-    console.log(dialogData);
-    this.initForm(dialogData.config, dialogData.data);
-    console.log(this.requestForm);
+    this.initForm(dialogData);
   }
 
   onClose(save: boolean): void {
@@ -31,10 +34,15 @@ export class EditDialogComponent<T = any> {
     }
   }
 
-  private initForm(config: EditDialogConfig[], data: any): void {
-    for (const configItem of config) {
+  private initForm(input: EditDialogData<T>): void {
+    for (const configItem of input.config) {
       const key = configItem.key;
-      this.requestForm.addControl(key, new FormControl(data[key] ?? null));
+      const value: any = (input as any).data[key] ?? null;
+      this.requestForm.addControl(key, new FormControl(value));
+    }
+
+    if (input.layout === EditDialogLayout.grid) {
+      this.isGridView = true;
     }
   }
 }

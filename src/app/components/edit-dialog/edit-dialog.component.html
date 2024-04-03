@@ -1,8 +1,13 @@
 <h3 class="editDialog-heading">Datensatz bearbeiten</h3>
 
-<form [formGroup]="requestForm" class="editDialog-form">
+<form
+  [formGroup]="requestForm"
+  class="editDialog-form"
+  [class.editDialog-form--grid]="isGridView"
+>
   <div
     class="editDialog-wrapper"
+    [class.editDialog-wrapper--full]="config.type === EditDialogType.TextArea"
     *ngFor="let config of dialogData.config"
     [ngSwitch]="config.type"
   >
@@ -16,6 +21,33 @@
       class="editDialog-textArea"
       [formControlName]="config.key"
     ></textarea>
+
+    <input
+      *ngSwitchCase="EditDialogType.Date"
+      type="date"
+      [attr.id]="config.key"
+      class="editDialog-date"
+      [formControlName]="config.key"
+    />
+
+    <input
+      *ngSwitchCase="EditDialogType.Number"
+      type="number"
+      [attr.id]="config.key"
+      class="editDialog-number"
+      [formControlName]="config.key"
+    />
+
+    <select
+      *ngSwitchCase="EditDialogType.Select"
+      [attr.id]="config.key"
+      class="editDialog-date"
+      [formControlName]="config.key"
+    >
+      <option *ngFor="let option of config.options" [value]="option.value">
+        {{ option.label }}
+      </option>
+    </select>
 
     <input
       type="text"
