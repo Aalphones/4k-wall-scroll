@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class WikiComponent {
   data$: Observable<RollItem[]> = this.facade.data$;
+  isLoading$: Observable<boolean> = this.facade.isLoading$;
 
   constructor(private facade: AppStateFacade) {}
 }

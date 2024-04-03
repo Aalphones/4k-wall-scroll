@@ -4,3 +4,6 @@
   [class.genderIcon--blue]="isBlue"
   [icon]="icon"
 ></fa-icon>
+<ng-container *ngIf="withLabel">
+  {{ label }}
+</ng-container>

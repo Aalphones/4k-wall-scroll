@@ -13,6 +13,20 @@ const list = createSelector(
   }
 );
 
+const loading = createSelector(
+  personsSelectors.isLoading,
+  franchisesSelectors.isLoading,
+  figuresSelectors.isLoading,
+  (
+    personLoading: boolean,
+    franchiseLoading: boolean,
+    figureLoading: boolean
+  ) => {
+    return personLoading || franchiseLoading || figureLoading;
+  }
+);
+
 export const appSelectors = {
   list,
+  loading,
 };

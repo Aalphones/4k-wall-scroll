@@ -1,7 +1,12 @@
-<section class="wiki-roll">
+<app-error-wrapper
+  class="wiki-roll"
+  [showError]="!(data$ | async)"
+  [showLoading]="isLoading$ | async"
+  message="Person nicht gefunden"
+>
   <app-wiki-preview
     [data]="item"
     class="wiki-roll-item"
     *ngFor="let item of data$ | async"
   ></app-wiki-preview>
-</section>
+</app-error-wrapper>

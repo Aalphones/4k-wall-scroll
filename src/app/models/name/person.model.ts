@@ -5,7 +5,6 @@ import { Nationality } from './nationality.model';
 
 export interface Person extends Name {
   profession: string;
-  race: string;
   eye: string;
   hair: string;
   gender: Gender;

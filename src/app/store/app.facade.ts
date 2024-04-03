@@ -35,6 +35,7 @@ export class AppStateFacade {
     franchisesSelectors.isLoading
   );
 
+  isLoading$: Observable<boolean> = this.store$.select(appSelectors.loading);
   images$: Observable<StableImage[]> = this.store$.select(
     imagesSelectors.selectImageList
   );

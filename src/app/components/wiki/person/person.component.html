@@ -6,17 +6,43 @@
   <section class="person" *ngIf="data$ | async as data">
     <app-person-cover class="person-cover" [data]="data"></app-person-cover>
 
-    <section class="person-meta">
-      <p class="person-meta-row">
+    <ul class="person-meta">
+      <li>
         <label>Augenfarbe:</label>
         {{ data.eye }}
-      </p>
-      <p class="person-meta-row">
+      </li>
+      <li>
         <label>Haarfarbe:</label>
         {{ data.hair }}
-      </p>
-      <app-gender class="person-meta-row" [gender]="data.gender"></app-gender>
-    </section>
+      </li>
+      <li>
+        <label>Größe:</label>
+        {{ data.height | height }}
+      </li>
+      <li>
+        <label>Nationalität:</label>
+        {{ data.nationality.name }}
+      </li>
+      <li>
+        <label>Geschlecht:</label>
+        <app-gender [gender]="data.gender"></app-gender>
+      </li>
+      <li>
+        <label>Geburtsdatum:</label>
+        <fa-icon class="person-meta-icon" [icon]="birthIcon"></fa-icon>
+        {{ data.birthday | age }}
+      </li>
+      <li>
+        <label>Geburtsort:</label>
+        <fa-icon class="person-meta-icon" [icon]="locationIcon"></fa-icon>
+        {{ data.birthplace }}
+      </li>
+      <li *ngIf="data.death">
+        <label>Todesdatum:</label>
+        <fa-icon class="person-meta-icon" [icon]="deathIcon"></fa-icon>
+        {{ data.death | date : "longDate" }}
+      </li>
+    </ul>
 
     <p class="person-description" [innerHTML]="data.description"></p>
     <button class="person-edit" (click)="onOpenDialog(data)">

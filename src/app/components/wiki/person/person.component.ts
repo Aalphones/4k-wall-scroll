@@ -5,7 +5,12 @@ import { Person } from '@app/models';
 import { AuthGuardService } from '@app/services';
 import { AppStateFacade } from '@app/store';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faLocationPin, faPencil } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCakeCandles,
+  faMapPin,
+  faPencil,
+  faSkull,
+} from '@fortawesome/free-solid-svg-icons';
 import { Observable, shareReplay, switchMap, take } from 'rxjs';
 import { EditDialogComponent } from '../../edit-dialog/edit-dialog.component';
 import { personConfig } from './person.def';
@@ -16,8 +21,10 @@ import { personConfig } from './person.def';
   styleUrls: ['./person.component.scss'],
 })
 export class PersonComponent {
+  readonly birthIcon: IconProp = faCakeCandles;
+  readonly deathIcon: IconProp = faSkull;
   readonly editIcon: IconProp = faPencil;
-  readonly locationIcon: IconProp = faLocationPin;
+  readonly locationIcon: IconProp = faMapPin;
 
   data$: Observable<Person | null> = this.route.params.pipe(
     switchMap((params: Params) => {

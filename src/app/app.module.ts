@@ -1,6 +1,9 @@
 import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
+import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
@@ -17,6 +20,8 @@ import {
   PersonsEffects,
   personsReducer,
 } from './store';
+
+registerLocaleData(localeDe, 'de-DE', localeDeExtra);
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,6 +54,7 @@ import {
         panelClass: 'dialog-container',
       },
     },
+    { provide: LOCALE_ID, useValue: 'de-DE' },
   ],
   bootstrap: [AppComponent],
 })

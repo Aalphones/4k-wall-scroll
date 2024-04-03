@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AgePipe } from 'src/app/pipes/age.pipe';
+import { HeightPipe } from 'src/app/pipes/height.pipe';
 import { EditDialogModule } from '../../edit-dialog/edit-dialog.module';
 import { ErrorModule } from '../../error/error.module';
 import { GenderComponent } from '../../gender/gender.component';
@@ -15,6 +17,8 @@ import { PersonComponent } from './person.component';
     ErrorModule,
     EditDialogModule,
     GenderComponent,
+    AgePipe,
+    HeightPipe,
   ],
   exports: [PersonComponent],
 })
