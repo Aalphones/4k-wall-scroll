@@ -1,0 +1,19 @@
+<img
+  *ngIf="preview; else uploadHint"
+  class="fileInput-preview"
+  [src]="preview"
+/>
+
+<ng-template #uploadHint>
+  <fa-icon [icon]="uploadIcon" class="fileInput-icon"></fa-icon>
+  <p class="fileInput-hint">Bilder hierhin ziehen oder Klicken für Upload</p>
+</ng-template>
+
+<input
+  type="file"
+  class="fileInput-input"
+  [(ngModel)]="uploadValue"
+  (ngModelChange)="onFileChange()"
+  [multiple]="multiple"
+  #input
+/>

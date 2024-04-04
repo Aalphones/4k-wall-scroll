@@ -22,6 +22,14 @@
       [formControlName]="config.key"
     ></textarea>
 
+    <app-file-input
+      *ngSwitchCase="EditDialogType.Image"
+      [attr.id]="config.key"
+      class="editDialog-image"
+      [formControlName]="config.key"
+      [resize]="config.imageSize"
+    ></app-file-input>
+
     <input
       *ngSwitchCase="EditDialogType.Date"
       type="date"

@@ -26,7 +26,6 @@ export async function getDimensions(
     img.src = objectUrl;
   });
 }
-
 export async function resizeImage(
   imageBase64: string,
   targetSize = 500

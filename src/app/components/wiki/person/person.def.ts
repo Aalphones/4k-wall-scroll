@@ -11,6 +11,7 @@ export const personConfig: (
     type: EditDialogType.Image,
     label: 'Vorschaufoto',
     key: 'preview',
+    imageSize: 256,
   },
   {
     type: EditDialogType.Image,

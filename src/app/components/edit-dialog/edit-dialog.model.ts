@@ -17,6 +17,7 @@ export interface EditDialogConfig {
   key: string;
   label: string;
   options?: Option[];
+  imageSize?: number;
 }
 
 export interface Option {
