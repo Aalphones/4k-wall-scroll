@@ -2,7 +2,6 @@
   class="wiki-roll"
   [showError]="!(data$ | async)"
   [showLoading]="isLoading$ | async"
-  message="Person nicht gefunden"
 >
   <app-wiki-preview
     [data]="item"
@@ -10,3 +9,9 @@
     *ngFor="let item of data$ | async"
   ></app-wiki-preview>
 </app-error-wrapper>
+
+<section class="wiki-actions">
+  <button class="wiki-actions-addPerson" (click)="onAddPerson()">
+    Person hinzufügen
+  </button>
+</section>

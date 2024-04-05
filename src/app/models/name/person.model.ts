@@ -1,3 +1,4 @@
+import { getRandomId } from '@app/utils';
 import { Name } from './base.model';
 import { FigureInfo } from './figure.model';
 import { Gender } from './gender.model';
@@ -24,9 +25,28 @@ export interface PersonInfo {
 }
 
 export interface PersonUpdate extends Omit<Person, 'nationality'> {
-  nationality: number;
+  nationality: number | null;
   preview?: string;
   image?: string;
+}
+
+export function getEmptyPerson(): PersonUpdate {
+  return {
+    id: getRandomId(),
+    title: '',
+    updatedAt: new Date(),
+    description: '',
+    profession: '',
+    eye: '',
+    hair: '',
+    gender: Gender.various,
+    birthplace: '',
+    birthday: '',
+    death: null,
+    nationality: null,
+    height: 0,
+    figures: [],
+  };
 }
 
 export function isPerson(toCheck: unknown): toCheck is Person {

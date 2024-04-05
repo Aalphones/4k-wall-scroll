@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 import {
   faExclamationTriangle,
   faSpinner,
@@ -15,5 +15,7 @@ export class ErrorWrapperComponent {
 
   @Input() message = 'Seite wurde nicht gefunden';
   @Input() showError: boolean | null = false;
-  @Input() showLoading: boolean | null = false;
+  @HostBinding('class.isLoading')
+  @Input()
+  showLoading: boolean | null = false;
 }

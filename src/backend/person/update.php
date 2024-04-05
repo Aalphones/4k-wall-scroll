@@ -46,12 +46,12 @@ $sql = "REPLACE INTO person(id, title, description, profession, eye, hair, gende
 sqlExecute($sql);
 
 if (isset($data->preview)) {
-	$preview_file = $path . '../../../media/person/preview/' . $data->id . '.jpg';
+	$preview_file = $path . '../../media/person/preview/' . $data->id . '.jpg';
 	base64_to_disk($data->preview, $preview_file);
 }
 
 if (isset($data->image)) {
-	$image_file = $path . '../../../media/person/' . $data->id . '.jpg';
+	$image_file = $path . '../../media/person/' . $data->id . '.jpg';
 	base64_to_disk($data->image, $image_file);
 }
 
