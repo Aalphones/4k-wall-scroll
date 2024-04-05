@@ -1,6 +1,9 @@
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import {
+  FigureUpdate,
+  Franchise,
+  getEmptyFigure,
   getEmptyPerson,
   Nationality,
   PersonUpdate,
@@ -13,6 +16,7 @@ import {
   EditDialogData,
   EditDialogLayout,
 } from '../edit-dialog/edit-dialog.model';
+import { figureConfig } from './figure/figure.def';
 import { personConfig } from './person/person.def';
 
 @Component({
@@ -25,6 +29,36 @@ export class WikiComponent {
   isLoading$: Observable<boolean> = this.facade.isLoading$;
 
   constructor(private facade: AppStateFacade, private dialog: Dialog) {}
+
+  onAddFigure(): void {
+    this.facade.franchises$
+      .pipe(take(1))
+      .subscribe((franchises: Franchise[]) => {
+        const emptyFigure = getEmptyFigure();
+        const dialogRef: DialogRef<FigureUpdate | null> =
+          this.dialog.open<FigureUpdate | null>(EditDialogComponent, {
+            data: {
+              data: emptyFigure,
+              config: figureConfig(franchises),
+              layout: EditDialogLayout.grid,
+            },
+            width: '65rem',
+          });
+
+        dialogRef.closed
+          .pipe(take(1))
+          .subscribe((result: FigureUpdate | null | undefined) => {
+            if (result) {
+              this.facade.updateFigure({
+                ...emptyFigure,
+                ...result,
+                image: result.image ? result.image : undefined,
+                preview: result.preview ? result.preview : undefined,
+              });
+            }
+          });
+      });
+  }
 
   onAddPerson(): void {
     this.facade.nationalities$

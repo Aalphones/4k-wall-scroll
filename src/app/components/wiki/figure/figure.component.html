@@ -3,18 +3,42 @@
   [showLoading]="isLoading$ | async"
   message="Charakter nicht gefunden"
 >
-  <section class="figure-meta" *ngIf="data$ | async as data">
-    <img
-      class="figure-meta-cover"
-      [src]="imageCover$ | async"
-      [alt]="data.title"
-    />
-    <p class="figure-meta-description" [innerHTML]="data.description"></p>
-    <button
-      class="figure-meta-edit"
-      (click)="onOpenDialog(data)"
-      *ngIf="isAuthenticated"
-    >
+  <section class="figure" *ngIf="data$ | async as data">
+    <app-figure-cover class="figure-cover" [data]="data"></app-figure-cover>
+
+    <ul class="figure-meta">
+      <li>
+        <label>Franchise:</label>
+        {{ data.franchise.title }}
+      </li>
+      <li>
+        <label>Erster Auftritt:</label>
+        {{ data.firstSeen }}
+      </li>
+      <li>
+        <label>Premiere:</label>
+        {{ data.firstSeenYear }}
+      </li>
+      <li>
+        <label>Typ:</label>
+        {{ data.type }}
+      </li>
+      <li>
+        <label>Augenfarbe:</label>
+        {{ data.eye }}
+      </li>
+      <li>
+        <label>Haarfarbe:</label>
+        {{ data.hair }}
+      </li>
+      <li>
+        <label>Geschlecht:</label>
+        <app-gender [gender]="data.gender"></app-gender>
+      </li>
+    </ul>
+
+    <p class="figure-description" [innerHTML]="data.description"></p>
+    <button class="figure-edit" (click)="onOpenDialog(data)">
       <fa-icon [icon]="editIcon"></fa-icon>
     </button>
   </section>

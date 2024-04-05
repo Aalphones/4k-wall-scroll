@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Figure, FiguresMap } from '@app/models';
+import { Figure, FiguresMap, FigureUpdate } from '@app/models';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { catchError, map, Observable, of, switchMap } from 'rxjs';
@@ -27,6 +27,24 @@ export class FiguresEffects implements OnInitEffects {
     )
   );
 
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(figuresActions.update),
+      switchMap(({ data }) => {
+        return this.updateFigure$(data).pipe(
+          map((response: Figure) => {
+            return figuresActions.updateSuccess({
+              response,
+            });
+          }),
+          catchError(() => {
+            return of(figuresActions.updateFailure());
+          })
+        );
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private http: HttpClient) {}
 
   ngrxOnInitEffects(): Action {
@@ -35,6 +53,13 @@ export class FiguresEffects implements OnInitEffects {
 
   private fetchList$(): Observable<Figure[]> {
     return this.http.get<Figure[]>(`${environment.baseUrl}/figure/`);
+  }
+
+  private updateFigure$(request: FigureUpdate): Observable<Figure> {
+    return this.http.post<Figure>(
+      `${environment.baseUrl}/figure/update.php`,
+      request
+    );
   }
 
   private mapList(data: Figure[]): FiguresMap {

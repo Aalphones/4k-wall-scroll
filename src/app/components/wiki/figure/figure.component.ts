@@ -1,14 +1,15 @@
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Figure } from '@app/models';
+import { Figure, FigureUpdate, Franchise } from '@app/models';
 import { AuthGuardService } from '@app/services';
 import { AppStateFacade } from '@app/store';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
-import { map, Observable, shareReplay, switchMap, take } from 'rxjs';
+import { map, Observable, switchMap, take } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { EditDialogComponent } from '../../edit-dialog/edit-dialog.component';
+import { EditDialogLayout } from '../../edit-dialog/edit-dialog.model';
 import { figureConfig } from './figure.def';
 
 @Component({
@@ -22,8 +23,7 @@ export class FigureComponent {
   data$: Observable<Figure | null> = this.route.params.pipe(
     switchMap((params: Params) => {
       return this.facade.getFiguresDetail$(params['id']);
-    }),
-    shareReplay()
+    })
   );
   imageCover$: Observable<string> = this.data$.pipe(
     map((item: Figure | null) => {
@@ -45,21 +45,32 @@ export class FigureComponent {
     private auth: AuthGuardService
   ) {}
 
-  onOpenDialog(data: Figure): void {
-    const dialogRef: DialogRef<Figure | null> = this.dialog.open<Figure | null>(
-      EditDialogComponent,
-      {
-        data: { data, config: figureConfig },
-        width: '45rem',
-      }
-    );
-
-    dialogRef.closed
+  onOpenDialog(figure: Figure): void {
+    this.facade.franchises$
       .pipe(take(1))
-      .subscribe((result: Figure | null | undefined) => {
-        if (result) {
-          this.facade.updateFigure(result);
-        }
+      .subscribe((franchises: Franchise[]) => {
+        const dialogRef: DialogRef<FigureUpdate | null> =
+          this.dialog.open<FigureUpdate | null>(EditDialogComponent, {
+            data: {
+              data: { ...figure, franchise: figure.franchise.id },
+              config: figureConfig(franchises),
+              layout: EditDialogLayout.grid,
+            },
+            width: '65rem',
+          });
+
+        dialogRef.closed
+          .pipe(take(1))
+          .subscribe((result: FigureUpdate | null | undefined) => {
+            if (result) {
+              this.facade.updateFigure({
+                ...figure,
+                ...result,
+                image: result.image ? result.image : undefined,
+                preview: result.preview ? result.preview : undefined,
+              });
+            }
+          });
       });
   }
 }

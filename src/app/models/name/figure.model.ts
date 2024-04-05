@@ -1,3 +1,4 @@
+import { getRandomId } from '@app/utils';
 import { FranchiseInfo } from '../franchise.model';
 import { Name } from './base.model';
 import { Gender } from './gender.model';
@@ -10,7 +11,7 @@ export interface Figure extends Name {
   gender: Gender;
   franchise: FranchiseInfo;
   firstSeen: string;
-  firstSeenYear: number;
+  firstSeenYear: number | null;
   persons: PersonInfo[];
 }
 
@@ -19,6 +20,29 @@ export interface FigureInfo {
   personId: number;
   title: string;
   description: string;
+}
+
+export interface FigureUpdate extends Omit<Figure, 'franchise'> {
+  franchise: number | null;
+  preview?: string;
+  image?: string;
+}
+
+export function getEmptyFigure(): FigureUpdate {
+  return {
+    id: getRandomId(),
+    title: '',
+    type: '',
+    eye: '',
+    hair: '',
+    updatedAt: new Date(),
+    description: '',
+    gender: Gender.various,
+    franchise: null,
+    firstSeen: '',
+    firstSeenYear: null,
+    persons: [],
+  };
 }
 
 export function isFigure(toCheck: unknown): toCheck is Figure {

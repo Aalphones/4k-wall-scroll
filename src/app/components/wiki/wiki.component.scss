@@ -35,7 +35,7 @@
     align-items: center;
     justify-content: center;
 }
-
+.wiki-actions-addChar,
 .wiki-actions-addPerson {
     @include button()
 }

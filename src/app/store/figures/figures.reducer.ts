@@ -26,12 +26,37 @@ export const figuresReducer = createReducer(
       data,
     };
   }),
-  on(figuresActions.getListFailure, (state: FiguresState) => {
+
+  on(figuresActions.update, (state: FiguresState) => {
+    const pending = state.pending + 1;
+    return {
+      ...state,
+      pending,
+    };
+  }),
+  on(figuresActions.updateSuccess, (state: FiguresState, { response }) => {
     const pending = state.pending - 1;
 
     return {
       ...state,
       pending,
+      data: {
+        ...state.data,
+        [response.id]: response,
+      },
     };
-  })
+  }),
+
+  on(
+    figuresActions.getListFailure,
+    figuresActions.updateFailure,
+    (state: FiguresState) => {
+      const pending = state.pending - 1;
+
+      return {
+        ...state,
+        pending,
+      };
+    }
+  )
 );

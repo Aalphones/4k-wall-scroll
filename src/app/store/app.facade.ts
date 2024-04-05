@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   Figure,
+  FigureUpdate,
   Franchise,
   ImagesMap,
   ImagesState,
@@ -99,7 +100,7 @@ export class AppStateFacade {
     this.store$.dispatch(imagesActions.updateImage({ image }));
   }
 
-  updateFigure(data: Figure): void {
+  updateFigure(data: FigureUpdate): void {
     this.store$.dispatch(figuresActions.update({ data }));
   }
 
