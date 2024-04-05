@@ -2,6 +2,7 @@ import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Franchise } from '@app/models';
+import { AuthGuardService } from '@app/services';
 import { AppStateFacade } from '@app/store';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
@@ -35,10 +36,12 @@ export class FranchiseComponent {
   );
 
   isLoading$: Observable<boolean> = this.facade.franchisesLoading$;
+  isAuthenticated = this.auth.isAuthenticated;
 
   constructor(
     private facade: AppStateFacade,
     private route: ActivatedRoute,
+    private auth: AuthGuardService,
     private dialog: Dialog
   ) {}
 

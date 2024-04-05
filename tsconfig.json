@@ -10,6 +10,7 @@
       "@app/store": ["src/app/store/index.ts"],
       "@app/utils": ["src/app/utils/index.ts"],
       "@app/pipes": ["src/app/pipes/index.ts"],
+      "@app/ui": ["src/app/components/ui/index.ts"],
     },
     "forceConsistentCasingInFileNames": true,
     "strict": true,

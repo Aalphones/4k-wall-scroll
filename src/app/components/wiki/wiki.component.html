@@ -1,3 +1,22 @@
+<app-filter
+  class="wiki-filter"
+  storageKey="wiki-filter"
+  [value]="filter$ | async"
+  sortLabel="Nach Datum"
+  sortType="number"
+  (update)="onUpdateFilter($event)"
+>
+  <ng-container *ngIf="isAuthenticated">
+    <button class="wiki-addPerson" (click)="onAddPerson()">
+      Person hinzufügen
+    </button>
+
+    <button class="wiki-addChar" (click)="onAddFigure()">
+      Charakter hinzufügen
+    </button>
+  </ng-container>
+</app-filter>
+
 <app-error-wrapper
   class="wiki-roll"
   [showError]="!(data$ | async)"
@@ -6,16 +25,15 @@
   <app-wiki-preview
     [data]="item"
     class="wiki-roll-item"
-    *ngFor="let item of data$ | async"
+    *ngFor="let item of pagedData$ | async"
   ></app-wiki-preview>
 </app-error-wrapper>
 
-<section class="wiki-actions">
-  <button class="wiki-actions-addPerson" (click)="onAddPerson()">
-    Person hinzufügen
-  </button>
-
-  <button class="wiki-actions-addChar" (click)="onAddFigure()">
-    Charakter hinzufügen
-  </button>
-</section>
+<app-pagination
+  class="wiki-pagination"
+  [currentPage]="(page$ | async) ?? 0"
+  [itemCount]="(itemCount$ | async) ?? 0"
+  [pageSize]="(pageSize$ | async) ?? 12"
+  (switchPage)="switchPage($event)"
+  (switchPageSize)="switchPageSize($event)"
+></app-pagination>

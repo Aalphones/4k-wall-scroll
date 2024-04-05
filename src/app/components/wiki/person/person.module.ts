@@ -5,7 +5,7 @@ import { AgePipe } from 'src/app/pipes/age.pipe';
 import { HeightPipe } from 'src/app/pipes/height.pipe';
 import { EditDialogModule } from '../../edit-dialog/edit-dialog.module';
 import { ErrorModule } from '../../error/error.module';
-import { GenderComponent } from '../../gender/gender.component';
+import { GenderComponent } from '../../ui/gender/gender.component';
 import { CoverComponent } from './cover/cover.component';
 import { PersonComponent } from './person.component';
 

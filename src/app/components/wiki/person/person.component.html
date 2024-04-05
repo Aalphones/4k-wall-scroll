@@ -45,7 +45,11 @@
     </ul>
 
     <p class="person-description" [innerHTML]="data.description"></p>
-    <button class="person-edit" (click)="onOpenDialog(data)">
+    <button
+      *ngIf="isAuthenticated"
+      class="person-edit"
+      (click)="onOpenDialog(data)"
+    >
       <fa-icon [icon]="editIcon"></fa-icon>
     </button>
   </section>

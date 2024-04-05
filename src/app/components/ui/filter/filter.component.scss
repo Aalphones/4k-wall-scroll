@@ -1,0 +1,24 @@
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-1);
+
+  @media only screen and (max-width: $breakpoint) {
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+  }
+}
+
+.filter-sorting {
+  margin-right: auto;
+  padding: var(--spacing-1);
+
+  @media only screen and (max-width: $breakpoint) {
+    margin-left: auto;
+  }
+}

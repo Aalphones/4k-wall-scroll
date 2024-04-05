@@ -38,7 +38,11 @@
     </ul>
 
     <p class="figure-description" [innerHTML]="data.description"></p>
-    <button class="figure-edit" (click)="onOpenDialog(data)">
+    <button
+      *ngIf="isAuthenticated"
+      class="figure-edit"
+      (click)="onOpenDialog(data)"
+    >
       <fa-icon [icon]="editIcon"></fa-icon>
     </button>
   </section>

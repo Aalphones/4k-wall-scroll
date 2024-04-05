@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { AuthGuardService } from './services';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = '4k-wall-scroll';
+  isAuthenticated = this.auth.isAuthenticated;
+
+  constructor(private auth: AuthGuardService) {}
 }

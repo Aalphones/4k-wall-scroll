@@ -10,7 +10,11 @@
       [alt]="data.title"
     />
     <p class="franchise-meta-description" [innerHTML]="data.description"></p>
-    <button class="franchise-meta-edit" (click)="onOpenDialog(data)">
+    <button
+      *ngIf="isAuthenticated"
+      class="franchise-meta-edit"
+      (click)="onOpenDialog(data)"
+    >
       <fa-icon [icon]="editIcon"></fa-icon>
     </button>
   </section>

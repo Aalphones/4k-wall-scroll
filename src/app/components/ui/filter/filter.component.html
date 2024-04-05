@@ -1,0 +1,15 @@
+<input
+  type="text"
+  placeholder="Suche..."
+  class="filter-search"
+  [(ngModel)]="currentValue.searchText"
+  (ngModelChange)="onChange()"
+  (keyup.esc)="onResetText()"
+/>
+
+<button class="filter-sorting" (click)="onChangeSorting()">
+  {{ sortLabel }}
+  <fa-icon [icon]="sortingIcon" class="navbar-btn-icon"></fa-icon>
+</button>
+
+<ng-content></ng-content>
