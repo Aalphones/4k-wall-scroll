@@ -27,21 +27,34 @@ if ($data === null) {
 	exit;
 }
 
-$sql = "REPLACE INTO nationality(id, name) VALUES(" .
+$sql = "REPLACE INTO link(id, name, url, type) VALUES(" .
 	"{$data->id}, " .
-	"\"{$data->name}\"" .
+	"\"{$data->name}\", " .
+	"\"{$data->url}\", " .
+	"\"{$data->type}\"" .
 	")";
 
 sqlExecute($sql);
 
-if (isset($data->preview)) {
-	$thumb_file = $path . '../../../media/flags/preview/' . $data->id . '.jpg';
-	base64_to_disk($data->preview, $thumb_file);
+if (isset($data->franchiseId)) {
+	$sql = "REPLACE INTO franchise_link(franchiseId, linkId) VALUES(" .
+		"{$data->franchiseId}, " .
+		"{$data->id}" .
+		")";
 }
 
-if (isset($data->image)) {
-	$image_file = $path . '../../../media/flags/' . $data->id . '.jpg';
-	base64_to_disk($data->image, $image_file);
+if (isset($data->personId)) {
+	$sql = "REPLACE INTO person_link(personId, linkId) VALUES(" .
+		"{$data->personId}, " .
+		"{$data->id}" .
+		")";
+}
+
+if (isset($data->figureId)) {
+	$sql = "REPLACE INTO figure_link(figureId, linkId) VALUES(" .
+		"{$data->figureId}, " .
+		"{$data->id}" .
+		")";
 }
 
 $success = ['message' => 'Erfolgreich', 'id' => $_POST["id"]];

@@ -1,4 +1,5 @@
 export * from './franchise.model';
+export * from './link.model';
 export * from './name';
 export * from './roll-item.model';
 export * from './sorting.model';

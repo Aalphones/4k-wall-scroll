@@ -5,6 +5,7 @@
 export const environment = {
   password: '',
   baseUrl: '',
+  mediaUrl: '',
 };
 
 /*

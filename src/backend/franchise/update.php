@@ -1,10 +1,23 @@
 <?php
 include '../functions.php';
 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type:application/json; charset=utf-8");
+// Handle preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+	header("Access-Control-Allow-Origin: *");
+	header("Access-Control-Allow-Methods: POST");
+	header("Access-Control-Allow-Headers: Content-Type");
+	exit;
+}
 
-$data = (object)$_POST;
+// Set CORS headers
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
+
+// Get the JSON data from the request body
+$json_data = file_get_contents('php://input');
+
+// Decode the JSON data
+$data = json_decode($json_data);
 
 $sql = "REPLACE INTO franchise(id, parentId, description, title) VALUES(" .
 	"{$data->id}, " .

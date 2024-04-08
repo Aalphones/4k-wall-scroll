@@ -78,6 +78,8 @@ LEFT JOIN
 person ON person_figure.personId = person.id
 LEFT JOIN 
 franchise ON figure.franchise = franchise.id
+LEFT JOIN 
+franchise ON figure.franchise = franchise.id
 WHERE figure.id = \"" . $data->id . "\"";
 
 $result = sqlSelect($sql);
