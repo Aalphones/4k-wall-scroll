@@ -20,6 +20,7 @@ export class LinkBarComponent {
       this.links = data;
     }
   }
+  @Input() disabled = true;
   @Input() loading: boolean | null = false;
 
   @Output() update: EventEmitter<Link> = new EventEmitter();
