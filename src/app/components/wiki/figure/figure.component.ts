@@ -1,12 +1,12 @@
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Figure, FigureUpdate, Franchise } from '@app/models';
+import { Figure, FigureUpdate, Franchise, Link } from '@app/models';
 import { AuthGuardService } from '@app/services';
 import { AppStateFacade } from '@app/store';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
-import { map, Observable, switchMap, take } from 'rxjs';
+import { map, Observable, shareReplay, switchMap, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { EditDialogComponent } from '../../edit-dialog/edit-dialog.component';
 import { EditDialogLayout } from '../../edit-dialog/edit-dialog.model';
@@ -20,11 +20,20 @@ import { figureConfig } from './figure.def';
 export class FigureComponent {
   readonly editIcon: IconProp = faPencil;
 
-  data$: Observable<Figure | null> = this.route.params.pipe(
-    switchMap((params: Params) => {
-      return this.facade.getFiguresDetail$(params['id']);
+  id$: Observable<number> = this.route.params.pipe(
+    tap((params: Params) => {
+      this.facade.getFigureLinks(params['id']);
+    }),
+    map((params: Params) => +params['id']),
+    shareReplay(1)
+  );
+
+  data$: Observable<Figure | null> = this.id$.pipe(
+    switchMap((id: number) => {
+      return this.facade.getFiguresDetail$(id);
     })
   );
+
   imageCover$: Observable<string> = this.data$.pipe(
     map((item: Figure | null) => {
       if (!item) {
@@ -37,6 +46,9 @@ export class FigureComponent {
 
   isAuthenticated = this.auth.isAuthenticated;
   isLoading$: Observable<boolean> = this.facade.figuresLoading$;
+  isLinksLoading$: Observable<boolean> = this.facade.figuresLinksLoading$;
+
+  links$: Observable<Link[]> = this.facade.figuresLinks$;
 
   constructor(
     private facade: AppStateFacade,
@@ -72,5 +84,11 @@ export class FigureComponent {
             }
           });
       });
+  }
+
+  onUpdateLink(updated: Link): void {
+    this.id$.pipe(take(1)).subscribe((figureId) => {
+      this.facade.updateLink({ ...updated, figureId });
+    });
   }
 }

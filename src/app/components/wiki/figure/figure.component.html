@@ -6,36 +6,45 @@
   <section class="figure" *ngIf="data$ | async as data">
     <app-figure-cover class="figure-cover" [data]="data"></app-figure-cover>
 
-    <ul class="figure-meta">
-      <li>
-        <label>Franchise:</label>
-        {{ data.franchise.title }}
-      </li>
-      <li>
-        <label>Erster Auftritt:</label>
-        {{ data.firstSeen }}
-      </li>
-      <li>
-        <label>Premiere:</label>
-        {{ data.firstSeenYear }}
-      </li>
-      <li>
-        <label>Typ:</label>
-        {{ data.type }}
-      </li>
-      <li>
-        <label>Augenfarbe:</label>
-        {{ data.eye }}
-      </li>
-      <li>
-        <label>Haarfarbe:</label>
-        {{ data.hair }}
-      </li>
-      <li>
-        <label>Geschlecht:</label>
-        <app-gender [gender]="data.gender"></app-gender>
-      </li>
-    </ul>
+    <section class="figure-info">
+      <app-link-bar
+        class="figure-links"
+        [data]="links$ | async"
+        [loading]="isLinksLoading$ | async"
+        (update)="onUpdateLink($event)"
+      ></app-link-bar>
+
+      <ul class="figure-meta">
+        <li>
+          <label>Franchise:</label>
+          {{ data.franchise.title }}
+        </li>
+        <li>
+          <label>Erster Auftritt:</label>
+          {{ data.firstSeen }}
+        </li>
+        <li>
+          <label>Premiere:</label>
+          {{ data.firstSeenYear }}
+        </li>
+        <li>
+          <label>Typ:</label>
+          {{ data.type }}
+        </li>
+        <li>
+          <label>Augenfarbe:</label>
+          {{ data.eye }}
+        </li>
+        <li>
+          <label>Haarfarbe:</label>
+          {{ data.hair }}
+        </li>
+        <li>
+          <label>Geschlecht:</label>
+          <app-gender [gender]="data.gender"></app-gender>
+        </li>
+      </ul>
+    </section>
 
     <p class="figure-description" [innerHTML]="data.description"></p>
     <button

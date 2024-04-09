@@ -17,6 +17,12 @@
     }
 }
 
+.figure-info {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-3) 0;
+}
+
 .figure-meta {
     display: flex;
     flex-direction: column;

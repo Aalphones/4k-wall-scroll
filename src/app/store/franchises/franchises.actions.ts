@@ -1,4 +1,4 @@
-import { Franchise, FranchisesMap } from '@app/models';
+import { Franchise, FranchisesMap, Link } from '@app/models';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const franchisesActions = createActionGroup({
@@ -10,10 +10,20 @@ export const franchisesActions = createActionGroup({
     }>(),
     'Get List Failure': emptyProps(),
 
+    'Get Links': props<{
+      franchiseId: number;
+    }>(),
+    'Get Links Success': props<{
+      links: Link[];
+    }>(),
+    'Get Links Failure': emptyProps(),
+
     Update: props<{
       data: Franchise;
     }>(),
-    'Update Success': emptyProps(),
+    'Update Success': props<{
+      data: Franchise;
+    }>(),
     'Update Failure': emptyProps(),
   },
 });

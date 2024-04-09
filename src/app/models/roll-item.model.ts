@@ -1,3 +1,3 @@
-import { Figure, Franchise, Person } from '@app/models';
+import { Figure, Person } from '@app/models';
 
-export type RollItem = Figure | Person | Franchise;
+export type RollItem = Figure | Person;

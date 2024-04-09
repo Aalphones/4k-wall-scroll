@@ -1,3 +1,5 @@
+import { getRandomId } from '../utils/functions';
+
 export interface Link {
   id: number;
   updatedAt: Date;
@@ -11,11 +13,21 @@ export interface Link {
 }
 
 export enum LinkType {
-  instagram = 'insta',
-  wikipedia = 'wiki',
-  gallery = 'gallery',
-  homepage = 'home',
-  other = 'other',
+  Instagram = 'insta',
+  Wikipedia = 'wiki',
+  Gallerie = 'gallery',
+  Homepage = 'home',
+  Sonstiges = 'other',
+}
+
+export function getEmptyLink(): Link {
+  return {
+    id: getRandomId(),
+    updatedAt: new Date(),
+    name: '',
+    url: '',
+    type: LinkType.Sonstiges,
+  };
 }
 
 export function isLink(toCheck: unknown): toCheck is Link {

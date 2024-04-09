@@ -41,6 +41,7 @@ if (isset($data->franchiseId)) {
 		"{$data->franchiseId}, " .
 		"{$data->id}" .
 		")";
+	sqlExecute($sql);
 }
 
 if (isset($data->personId)) {
@@ -48,6 +49,7 @@ if (isset($data->personId)) {
 		"{$data->personId}, " .
 		"{$data->id}" .
 		")";
+	sqlExecute($sql);
 }
 
 if (isset($data->figureId)) {
@@ -55,6 +57,7 @@ if (isset($data->figureId)) {
 		"{$data->figureId}, " .
 		"{$data->id}" .
 		")";
+	sqlExecute($sql);
 }
 
 $success = ['message' => 'Erfolgreich', 'id' => $_POST["id"]];

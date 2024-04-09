@@ -5,6 +5,7 @@ import {
   Franchise,
   ImagesMap,
   ImagesState,
+  Link,
   Nationality,
   Person,
   PersonUpdate,
@@ -13,6 +14,7 @@ import {
 } from '@app/models';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
+import { appActions } from './app.actions';
 import { appSelectors } from './app.selectors';
 import { figuresActions, figuresSelectors } from './figures';
 import { franchisesActions, franchisesSelectors } from './franchises';
@@ -27,12 +29,24 @@ export class AppStateFacade {
   data$: Observable<RollItem[]> = this.store$.select(appSelectors.list);
 
   figures$: Observable<Figure[]> = this.store$.select(figuresSelectors.list);
+  figuresLinks$: Observable<Link[]> = this.store$.select(
+    figuresSelectors.selectLinks
+  );
+  figuresLinksLoading$: Observable<boolean> = this.store$.select(
+    figuresSelectors.selectLinksPending
+  );
   figuresLoading$: Observable<boolean> = this.store$.select(
     figuresSelectors.isLoading
   );
 
   franchises$: Observable<Franchise[]> = this.store$.select(
     franchisesSelectors.list
+  );
+  franchiseLinks$: Observable<Link[]> = this.store$.select(
+    franchisesSelectors.selectLinks
+  );
+  franchiseLinksLoading$: Observable<boolean> = this.store$.select(
+    franchisesSelectors.selectLinksPending
   );
   franchisesLoading$: Observable<boolean> = this.store$.select(
     franchisesSelectors.isLoading
@@ -70,8 +84,16 @@ export class AppStateFacade {
     return this.store$.select(figuresSelectors.detail(id));
   }
 
+  getFigureLinks(figureId: number): void {
+    this.store$.dispatch(figuresActions.getLinks({ figureId }));
+  }
+
   getFiguresList(): void {
     this.store$.dispatch(figuresActions.getList());
+  }
+
+  getFranchiseLinks(franchiseId: number): void {
+    this.store$.dispatch(franchisesActions.getLinks({ franchiseId }));
   }
 
   getFranchiseDetail$(id: number): Observable<Franchise | null> {
@@ -103,9 +125,12 @@ export class AppStateFacade {
   updateFigure(data: FigureUpdate): void {
     this.store$.dispatch(figuresActions.update({ data }));
   }
-
   updateFranchise(data: Franchise): void {
     this.store$.dispatch(franchisesActions.update({ data }));
+  }
+
+  updateLink(data: Link): void {
+    this.store$.dispatch(appActions.updateLink({ data }));
   }
 
   updatePerson(data: PersonUpdate): void {

@@ -49,7 +49,7 @@
     <select
       *ngSwitchCase="EditDialogType.Select"
       [attr.id]="config.key"
-      class="editDialog-date"
+      class="editDialog-select"
       [formControlName]="config.key"
     >
       <option *ngFor="let option of config.options" [value]="option.value">

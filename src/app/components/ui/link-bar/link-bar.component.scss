@@ -1,0 +1,17 @@
+@import "src/styles/mixins";
+
+:host {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: var(--spacing-2);
+    align-items: center;
+}
+
+.linkBar-link {
+    
+}
+
+.linkBar-add {
+    @include clear-btn-style();
+}

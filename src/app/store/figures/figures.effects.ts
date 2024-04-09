@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Figure, FiguresMap, FigureUpdate } from '@app/models';
+import { Figure, FiguresMap, FigureUpdate, Link } from '@app/models';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { catchError, map, Observable, of, switchMap } from 'rxjs';
@@ -27,11 +27,29 @@ export class FiguresEffects implements OnInitEffects {
     )
   );
 
+  getLinkList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(figuresActions.getLinks),
+      switchMap(({ figureId }) => {
+        return this.fetchLinks$(figureId).pipe(
+          map((links: Link[]) => {
+            return figuresActions.getLinksSuccess({
+              links,
+            });
+          }),
+          catchError(() => {
+            return of(figuresActions.getLinksFailure());
+          })
+        );
+      })
+    )
+  );
+
   update$ = createEffect(() =>
     this.actions$.pipe(
       ofType(figuresActions.update),
       switchMap(({ data }) => {
-        return this.updateFigure$(data).pipe(
+        return this.postUpdateFigure$(data).pipe(
           map((response: Figure) => {
             return figuresActions.updateSuccess({
               response,
@@ -51,11 +69,17 @@ export class FiguresEffects implements OnInitEffects {
     return figuresActions.getList();
   }
 
+  private fetchLinks$(figureId: number): Observable<Link[]> {
+    return this.http.get<Link[]>(`${environment.baseUrl}/link/`, {
+      params: { figureId },
+    });
+  }
+
   private fetchList$(): Observable<Figure[]> {
     return this.http.get<Figure[]>(`${environment.baseUrl}/figure/`);
   }
 
-  private updateFigure$(request: FigureUpdate): Observable<Figure> {
+  private postUpdateFigure$(request: FigureUpdate): Observable<Figure> {
     return this.http.post<Figure>(
       `${environment.baseUrl}/figure/update.php`,
       request

@@ -35,6 +35,18 @@
     }
 }
 
+.editDialog-label {
+    flex: 1;
+}
+
+.editDialog-textArea,
+.editDialog-number,
+.editDialog-input,
+.editDialog-date,
+.editDialog-select {
+    flex: 3;
+}
+
 .editDialog-wrapper {
     display: flex;
     flex-direction: row;
@@ -43,10 +55,6 @@
     &--full {
         grid-column: 1/ 3;
     }
-}
-
-.editDialog-label {
-    flex: 1;
 }
 
 .editDialog-textArea {

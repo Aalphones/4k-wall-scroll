@@ -1,0 +1,9 @@
+<app-link
+  class="linkBar-link"
+  *ngFor="let link of links"
+  [data]="link"
+></app-link>
+
+<button class="linkBar-add" (click)="onAdd()">
+  <fa-icon class="linkBar-add-icon" [icon]="addIcon"></fa-icon>
+</button>
