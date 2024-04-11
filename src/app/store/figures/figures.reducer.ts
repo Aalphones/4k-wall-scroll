@@ -13,7 +13,7 @@ export const INITIAL_FIGURES_STATE: FiguresState = {
 
 export const figuresReducer = createReducer(
   INITIAL_FIGURES_STATE,
-  on(figuresActions.getList, figuresActions.update, (state: FiguresState) => {
+  on(figuresActions.getList, (state: FiguresState) => {
     const pending = state.pending + 1;
     return {
       ...state,
@@ -31,6 +31,13 @@ export const figuresReducer = createReducer(
     };
   }),
 
+  on(figuresActions.update, (state: FiguresState) => {
+    const pending = state.pending + 1;
+    return {
+      ...state,
+      pending,
+    };
+  }),
   on(figuresActions.updateSuccess, (state: FiguresState, { response }) => {
     const pending = state.pending - 1;
 

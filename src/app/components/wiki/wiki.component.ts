@@ -2,11 +2,15 @@ import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  FigureInfo,
   FigureUpdate,
   Franchise,
   getEmptyFigure,
   getEmptyPerson,
+  isFigure,
+  isPerson,
   Nationality,
+  PersonInfo,
   PersonUpdate,
   RollItem,
 } from '@app/models';
@@ -47,13 +51,43 @@ export class WikiComponent extends BaseRollDirective<RollItem> {
     if (!text) {
       return items;
     }
+    const lowercaseSearch = text.toLowerCase();
 
     return items.filter((item: RollItem) => {
       const containsStringInName: boolean = item.title
-        .toLocaleLowerCase()
-        .includes(text.toLocaleLowerCase());
+        .toLowerCase()
+        .includes(lowercaseSearch);
 
-      return containsStringInName;
+      if (isFigure(item)) {
+        const containsStringInFirstSeen = item.firstSeen
+          .toLowerCase()
+          .includes(lowercaseSearch);
+
+        const containsStringInFranchise = item.franchise.title
+          .toLowerCase()
+          .includes(lowercaseSearch);
+
+        const containsStringInPersons = item.persons.some(
+          (person: PersonInfo) =>
+            person.title.toLowerCase().includes(lowercaseSearch)
+        );
+
+        return (
+          containsStringInName ||
+          containsStringInFirstSeen ||
+          containsStringInFranchise ||
+          containsStringInPersons
+        );
+      } else if (isPerson(item)) {
+        const containsStringInFigures = item.figures.some(
+          (figure: FigureInfo) =>
+            figure.title.toLowerCase().includes(lowercaseSearch)
+        );
+
+        return containsStringInName || containsStringInFigures;
+      } else {
+        return containsStringInName;
+      }
     });
   }
 
