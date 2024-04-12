@@ -65,7 +65,6 @@ franchise.id AS franchise_id,
 franchise.title AS franchise_title, 
 figure.firstSeen, 
 figure.firstSeenYear,
-person_figure.id AS person_figure_id,
 person_figure.personId,
 person_figure.figureId,
 person.title AS person_title,
@@ -104,10 +103,9 @@ foreach ($result as $row) {
 	);
 
 	// Add person data if exists
-	if ($row['person_figure_id']) {
+	if ($row['personId']) {
 		$person = array(
-			'id' => $row['personId'],
-			'figureId' => $row['figureId'],
+			'personId' => $row['personId'],
 			'title' => $row['person_title'],
 			'description' => $row['person_description']
 		);

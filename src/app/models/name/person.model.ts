@@ -18,10 +18,23 @@ export interface Person extends Name {
 }
 
 export interface PersonInfo {
-  id: number;
-  figureId: number;
+  personId: number;
   title: string;
   description: string;
+}
+
+export function isPersonInfo(toCheck: unknown): toCheck is PersonInfo {
+  if (typeof toCheck !== 'object' || toCheck === null) {
+    return false;
+  }
+  const keys = Object.keys(toCheck);
+
+  // Check if all required properties exist
+  const hasRequiredProperties = ['personId', 'title', 'description'].every(
+    (prop: string) => keys.includes(prop)
+  );
+
+  return hasRequiredProperties;
 }
 
 export interface PersonUpdate extends Omit<Person, 'nationality'> {

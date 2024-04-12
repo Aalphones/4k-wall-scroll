@@ -5,7 +5,8 @@ import { AgePipe } from 'src/app/pipes/age.pipe';
 import { HeightPipe } from 'src/app/pipes/height.pipe';
 import { EditDialogModule } from '../../edit-dialog/edit-dialog.module';
 import { ErrorModule } from '../../error/error.module';
-import { GenderComponent } from '../../ui/gender/gender.component';
+import { GenderComponent } from '../../ui/gender';
+import { WikiPreviewComponent } from '../../ui/preview/wiki-preview.component';
 import { CoverComponent } from './cover/cover.component';
 import { PersonComponent } from './person.component';
 
@@ -19,6 +20,7 @@ import { PersonComponent } from './person.component';
     GenderComponent,
     AgePipe,
     HeightPipe,
+    WikiPreviewComponent,
   ],
   exports: [PersonComponent],
 })

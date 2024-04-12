@@ -70,7 +70,6 @@ person.death,
 person.nationality AS nationality_id,
 nationality.name AS nationality_name,
 person.height,
-person_figure.id AS person_figure_id,
 person_figure.personId,
 person_figure.figureId,
 figure.title AS figure_title,
@@ -111,10 +110,9 @@ foreach ($result as $row) {
 	);
 
 	// Add figure data if exists
-	if ($row['person_figure_id']) {
+	if ($row['figureId']) {
 		$figure = array(
-			'id' => $row['figureId'],
-			'personId' => $row['personId'],
+			'figureId' => $row['figureId'],
 			'title' => $row['figure_title'],
 			'description' => $row['figure_description']
 		);

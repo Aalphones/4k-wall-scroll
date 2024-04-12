@@ -17,6 +17,12 @@
     }
 }
 
+.person-info {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-3) 0;
+}
+
 .person-meta {
     display: flex;
     flex-direction: column;
@@ -52,6 +58,24 @@
     position: absolute;
     right: 0;
     top: 0;
+}
+
+.person-figureRoll {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: var(--spacing-2);
+
+    @media only screen and (max-width: 1300px) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @media only screen and (max-width: 768px) {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .person-description {

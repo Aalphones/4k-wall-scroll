@@ -5,7 +5,7 @@ import { Figure, FigureUpdate, Franchise, Link } from '@app/models';
 import { AuthGuardService } from '@app/services';
 import { AppStateFacade } from '@app/store';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { map, Observable, shareReplay, switchMap, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { EditDialogComponent } from '../../edit-dialog/edit-dialog.component';
@@ -18,6 +18,7 @@ import { figureConfig } from './figure.def';
   styleUrls: ['./figure.component.scss'],
 })
 export class FigureComponent {
+  readonly deleteIcon: IconProp = faTrash;
   readonly editIcon: IconProp = faPencil;
 
   id$: Observable<number> = this.route.params.pipe(
@@ -56,6 +57,10 @@ export class FigureComponent {
     private dialog: Dialog,
     private auth: AuthGuardService
   ) {}
+
+  onEditPerson(): void {}
+
+  onDeletePerson(): void {}
 
   onOpenDialog(figure: Figure): void {
     this.facade.franchises$

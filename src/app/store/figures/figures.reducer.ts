@@ -1,4 +1,4 @@
-import { FiguresState } from '@app/models';
+import { Figure, FiguresState } from '@app/models';
 import { createReducer, on } from '@ngrx/store';
 import { appActions } from '../app.actions';
 import { figuresActions } from './figures.actions';
@@ -31,13 +31,38 @@ export const figuresReducer = createReducer(
     };
   }),
 
-  on(figuresActions.update, (state: FiguresState) => {
-    const pending = state.pending + 1;
-    return {
-      ...state,
-      pending,
-    };
-  }),
+  on(
+    figuresActions.update,
+    appActions.updatePersonFigure,
+    (state: FiguresState) => {
+      const pending = state.pending + 1;
+      return {
+        ...state,
+        pending,
+      };
+    }
+  ),
+  on(
+    appActions.updatePersonFigureSuccess,
+    (state: FiguresState, { updates, personId }) => {
+      const pending = state.pending - 1;
+      const persons = updates.map(({ personId, description, person_title }) => {
+        return { personId, description, title: person_title };
+      });
+      const updatedPerson: Figure = {
+        ...state.data[personId],
+        persons,
+      };
+      return {
+        ...state,
+        pending,
+        data: {
+          ...state.data,
+          [personId]: updatedPerson,
+        },
+      };
+    }
+  ),
   on(figuresActions.updateSuccess, (state: FiguresState, { response }) => {
     const pending = state.pending - 1;
 
@@ -54,6 +79,7 @@ export const figuresReducer = createReducer(
   on(
     figuresActions.getListFailure,
     figuresActions.updateFailure,
+    appActions.updatePersonFigureFailure,
     (state: FiguresState) => {
       const pending = state.pending - 1;
 

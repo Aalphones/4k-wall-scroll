@@ -6,43 +6,53 @@
   <section class="person" *ngIf="data$ | async as data">
     <app-person-cover class="person-cover" [data]="data"></app-person-cover>
 
-    <ul class="person-meta">
-      <li>
-        <label>Augenfarbe:</label>
-        {{ data.eye }}
-      </li>
-      <li>
-        <label>Haarfarbe:</label>
-        {{ data.hair }}
-      </li>
-      <li>
-        <label>Größe:</label>
-        {{ data.height | height }}
-      </li>
-      <li>
-        <label>Nationalität:</label>
-        {{ data.nationality.name }}
-      </li>
-      <li>
-        <label>Geschlecht:</label>
-        <app-gender [gender]="data.gender"></app-gender>
-      </li>
-      <li>
-        <label>Geburtsdatum:</label>
-        <fa-icon class="person-meta-icon" [icon]="birthIcon"></fa-icon>
-        {{ data.birthday | age }}
-      </li>
-      <li>
-        <label>Geburtsort:</label>
-        <fa-icon class="person-meta-icon" [icon]="locationIcon"></fa-icon>
-        {{ data.birthplace }}
-      </li>
-      <li *ngIf="data.death">
-        <label>Todesdatum:</label>
-        <fa-icon class="person-meta-icon" [icon]="deathIcon"></fa-icon>
-        {{ data.death | date : "longDate" }}
-      </li>
-    </ul>
+    <section class="person-info">
+      <ul class="person-meta">
+        <li>
+          <label>Augenfarbe:</label>
+          {{ data.eye }}
+        </li>
+        <li>
+          <label>Haarfarbe:</label>
+          {{ data.hair }}
+        </li>
+        <li>
+          <label>Größe:</label>
+          {{ data.height | height }}
+        </li>
+        <li>
+          <label>Nationalität:</label>
+          {{ data.nationality.name }}
+        </li>
+        <li>
+          <label>Geschlecht:</label>
+          <app-gender [gender]="data.gender"></app-gender>
+        </li>
+        <li>
+          <label>Geburtsdatum:</label>
+          <fa-icon class="person-meta-icon" [icon]="birthIcon"></fa-icon>
+          {{ data.birthday | age }}
+        </li>
+        <li>
+          <label>Geburtsort:</label>
+          <fa-icon class="person-meta-icon" [icon]="locationIcon"></fa-icon>
+          {{ data.birthplace }}
+        </li>
+        <li *ngIf="data.death">
+          <label>Todesdatum:</label>
+          <fa-icon class="person-meta-icon" [icon]="deathIcon"></fa-icon>
+          {{ data.death | date : "longDate" }}
+        </li>
+      </ul>
+
+      <section class="person-figureRoll">
+        <app-wiki-preview
+          class="person-figureRoll-figure"
+          *ngFor="let figure of data.figures"
+          [data]="figure"
+        ></app-wiki-preview>
+      </section>
+    </section>
 
     <p class="person-description" [innerHTML]="data.description"></p>
     <button

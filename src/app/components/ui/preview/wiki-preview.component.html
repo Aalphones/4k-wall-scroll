@@ -1,4 +1,7 @@
 <a class="preview-link" href="#" [routerLink]="routerLink">
+  <section class="preview-actions">
+    <ng-content></ng-content>
+  </section>
   <img class="preview-img" [src]="preview" />
   <span class="preview-title">
     {{ title }}

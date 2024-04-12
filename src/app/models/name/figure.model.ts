@@ -16,10 +16,23 @@ export interface Figure extends Name {
 }
 
 export interface FigureInfo {
-  id: number;
-  personId: number;
+  figureId: number;
   title: string;
   description: string;
+}
+
+export function isFigureInfo(toCheck: unknown): toCheck is FigureInfo {
+  if (typeof toCheck !== 'object' || toCheck === null) {
+    return false;
+  }
+  const keys = Object.keys(toCheck);
+
+  // Check if all required properties exist
+  const hasRequiredProperties = ['figureId', 'title', 'description'].every(
+    (prop: string) => keys.includes(prop)
+  );
+
+  return hasRequiredProperties;
 }
 
 export interface FigureUpdate extends Omit<Figure, 'franchise'> {

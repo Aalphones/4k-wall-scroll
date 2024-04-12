@@ -1,5 +1,6 @@
-import { PersonsState } from '@app/models';
+import { Person, PersonsState } from '@app/models';
 import { createReducer, on } from '@ngrx/store';
+import { appActions } from '../app.actions';
 import { personsActions } from './persons.actions';
 
 export const INITIAL_PERSONS_STATE: PersonsState = {
@@ -57,13 +58,38 @@ export const personsReducer = createReducer(
     }
   ),
 
-  on(personsActions.update, (state: PersonsState) => {
-    const pending = state.pending + 1;
-    return {
-      ...state,
-      pending,
-    };
-  }),
+  on(
+    personsActions.update,
+    appActions.updatePersonFigure,
+    (state: PersonsState) => {
+      const pending = state.pending + 1;
+      return {
+        ...state,
+        pending,
+      };
+    }
+  ),
+  on(
+    appActions.updatePersonFigureSuccess,
+    (state: PersonsState, { updates, personId }) => {
+      const pending = state.pending - 1;
+      const figures = updates.map(({ figureId, description, figure_title }) => {
+        return { figureId, description, title: figure_title };
+      });
+      const updatedPerson: Person = {
+        ...state.data[personId],
+        figures,
+      };
+      return {
+        ...state,
+        pending,
+        data: {
+          ...state.data,
+          [personId]: updatedPerson,
+        },
+      };
+    }
+  ),
   on(personsActions.updateSuccess, (state: PersonsState, { response }) => {
     const pending = state.pending - 1;
 
@@ -81,6 +107,7 @@ export const personsReducer = createReducer(
     personsActions.getNationalitiesFailure,
     personsActions.getListFailure,
     personsActions.updateFailure,
+    appActions.updatePersonFigureFailure,
     (state: PersonsState) => {
       const pending = state.pending - 1;
 

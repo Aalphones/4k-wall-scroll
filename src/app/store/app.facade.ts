@@ -80,6 +80,10 @@ export class AppStateFacade {
     this.store$.dispatch(imagesActions.deleteImage({ id: image.id }));
   }
 
+  deletePersonFigure(figureId: number, personId: number): void {
+    this.store$.dispatch(appActions.deletePersonFigure({ figureId, personId }));
+  }
+
   getFiguresDetail$(id: number): Observable<Figure | null> {
     return this.store$.select(figuresSelectors.detail(id));
   }
@@ -135,5 +139,15 @@ export class AppStateFacade {
 
   updatePerson(data: PersonUpdate): void {
     this.store$.dispatch(personsActions.update({ data }));
+  }
+
+  updatePersonFigure(
+    figureId: number,
+    personId: number,
+    description: string
+  ): void {
+    this.store$.dispatch(
+      appActions.updatePersonFigure({ figureId, personId, description })
+    );
   }
 }

@@ -9,6 +9,16 @@
     display: block;
 }
 
+.preview-actions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
 .preview-title {
     position: absolute;
     bottom: 0;
@@ -17,8 +27,7 @@
     text-align: center;
     background: rgba(0,0,0,0.5);
     color: white;
-    padding: var(--spacing-2);
+    padding: var(--spacing-1);
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
 }

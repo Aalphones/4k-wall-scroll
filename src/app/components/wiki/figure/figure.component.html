@@ -45,6 +45,29 @@
           <app-gender [gender]="data.gender"></app-gender>
         </li>
       </ul>
+
+      <section class="figure-personRoll">
+        <app-wiki-preview
+          class="figure-personRoll-person"
+          *ngFor="let person of data.persons"
+          [data]="person"
+        >
+          <button
+            *ngIf="isAuthenticated"
+            class="figure-personRoll-person-edit"
+            (click)="onEditPerson()"
+          >
+            <fa-icon [icon]="editIcon"></fa-icon>
+          </button>
+          <button
+            *ngIf="isAuthenticated"
+            class="figure-personRoll-person-delete"
+            (click)="onDeletePerson()"
+          >
+            <fa-icon [icon]="deleteIcon"></fa-icon>
+          </button>
+        </app-wiki-preview>
+      </section>
     </section>
 
     <p class="figure-description" [innerHTML]="data.description"></p>
