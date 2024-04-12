@@ -50,7 +50,29 @@
           class="person-figureRoll-figure"
           *ngFor="let figure of data.figures"
           [data]="figure"
-        ></app-wiki-preview>
+        >
+          <button
+            *ngIf="isAuthenticated"
+            class="person-figureRoll-figure-edit"
+            (click)="onEditFigure($event, data.id, figure)"
+          >
+            <fa-icon [icon]="editIcon"></fa-icon>
+          </button>
+          <button
+            *ngIf="isAuthenticated"
+            class="person-figureRoll-figure-delete"
+            (click)="onDeleteFigure($event, figure, data.id)"
+          >
+            <fa-icon [icon]="deleteIcon"></fa-icon>
+          </button>
+        </app-wiki-preview>
+        <button
+          *ngIf="isAuthenticated"
+          class="person-figureRoll-add"
+          (click)="onEditFigure($event, data.id)"
+        >
+          <fa-icon [icon]="addIcon"></fa-icon>
+        </button>
       </section>
     </section>
 

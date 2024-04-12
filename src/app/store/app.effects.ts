@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -88,13 +88,9 @@ export class AppEffects {
     figureId: number,
     personId: number
   ): Observable<void> {
-    const params = new HttpParams();
-    params.append('figureId', figureId);
-    params.append('personId', personId);
-
     return this.http.delete<void>(
       `${environment.baseUrl}/figure/person-delete.php`,
-      { params }
+      { params: { figureId, personId } }
     );
   }
 

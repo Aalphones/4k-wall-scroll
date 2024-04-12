@@ -78,6 +78,22 @@
     }
 }
 
+.person-figureRoll-add {
+    @include clear-btn-style();
+    margin: var(--spacing-3) auto;
+}
+
+.person-figureRoll-figure-delete,
+.person-figureRoll-figure-edit {
+    color: white;
+    padding: var(--spacing-1);
+    @include clear-btn-style();
+}
+
+.person-figureRoll-figure-edit {
+    margin-left: auto;
+}
+
 .person-description {
     grid-column: 1 / 3;
     white-space: pre-wrap;

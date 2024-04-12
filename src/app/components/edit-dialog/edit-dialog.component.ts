@@ -38,7 +38,12 @@ export class EditDialogComponent<T = any> {
     for (const configItem of input.config) {
       const key = configItem.key;
       const value: any = (input as any).data[key] ?? null;
-      this.requestForm.addControl(key, new FormControl(value));
+      const control = new FormControl(value);
+      this.requestForm.addControl(key, control);
+
+      if (configItem.disabled) {
+        control.disable();
+      }
     }
 
     if (input.layout === EditDialogLayout.grid) {

@@ -2,6 +2,9 @@
 include '../functions.php';
 
 header("Content-Type:application/json; charset=utf-8");
+// Set CORS headers
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -11,14 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 	exit;
 }
 
-// Set CORS headers
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-
 $sql = "DELETE FROM person_figure WHERE personId = " .
 	"\"{$_GET['personId']}\" AND figureId = " .
-	"\"{$_GET['figureId']}\"" .
-	")";
+	"\"{$_GET['figureId']}\"";
 
 sqlExecute($sql);
 

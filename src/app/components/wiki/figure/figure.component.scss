@@ -78,6 +78,11 @@
     }
 }
 
+.figure-personRoll-add {
+    @include clear-btn-style();
+    margin: var(--spacing-3) auto;
+}
+
 .figure-personRoll-person-delete,
 .figure-personRoll-person-edit {
     color: white;

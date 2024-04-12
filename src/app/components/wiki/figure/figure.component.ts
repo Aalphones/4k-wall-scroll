@@ -1,16 +1,25 @@
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Figure, FigureUpdate, Franchise, Link } from '@app/models';
+import {
+  Figure,
+  FigureUpdate,
+  Franchise,
+  Link,
+  Person,
+  PersonInfo,
+} from '@app/models';
 import { AuthGuardService } from '@app/services';
 import { AppStateFacade } from '@app/store';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { map, Observable, shareReplay, switchMap, take, tap } from 'rxjs';
+import { PersonFigureUpdate } from 'src/app/models/name/base.model';
 import { environment } from 'src/environments/environment.prod';
 import { EditDialogComponent } from '../../edit-dialog/edit-dialog.component';
 import { EditDialogLayout } from '../../edit-dialog/edit-dialog.model';
 import { figureConfig } from './figure.def';
+import { personFigureConfig } from './person.def';
 
 @Component({
   selector: 'app-figure',
@@ -18,6 +27,7 @@ import { figureConfig } from './figure.def';
   styleUrls: ['./figure.component.scss'],
 })
 export class FigureComponent {
+  readonly addIcon: IconProp = faPlus;
   readonly deleteIcon: IconProp = faTrash;
   readonly editIcon: IconProp = faPencil;
 
@@ -58,9 +68,51 @@ export class FigureComponent {
     private auth: AuthGuardService
   ) {}
 
-  onEditPerson(): void {}
+  onEditPerson(
+    event: Event,
+    figureId: number,
+    person: PersonInfo | null = null
+  ): void {
+    event.stopPropagation();
+    event.preventDefault();
 
-  onDeletePerson(): void {}
+    this.facade.persons$.pipe(take(1)).subscribe((persons: Person[]) => {
+      const dialogRef: DialogRef<Partial<PersonFigureUpdate> | null> =
+        this.dialog.open<Partial<PersonFigureUpdate> | null>(
+          EditDialogComponent,
+          {
+            data: {
+              config: personFigureConfig(persons, !!person),
+              data: {
+                figureId,
+                personId: person?.personId ?? null,
+                description: person?.description ?? '',
+              },
+            },
+            width: '35rem',
+          }
+        );
+
+      dialogRef.closed
+        .pipe(take(1))
+        .subscribe((result: Partial<PersonFigureUpdate> | null | undefined) => {
+          if (result?.personId && result.description) {
+            this.facade.updatePersonFigure(
+              figureId,
+              result.personId,
+              result.description
+            );
+          }
+        });
+    });
+  }
+
+  onDeletePerson(event: Event, person: PersonInfo, figureId: number): void {
+    event.stopPropagation();
+    event.preventDefault();
+
+    this.facade.deletePersonFigure(figureId, person.personId);
+  }
 
   onOpenDialog(figure: Figure): void {
     this.facade.franchises$
