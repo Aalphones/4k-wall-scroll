@@ -4,6 +4,11 @@
   [data]="link"
 ></app-link>
 
-<button class="linkBar-add" (click)="onAdd()" *ngIf="!disabled">
+<button
+  class="linkBar-add"
+  (click)="onAdd()"
+  *ngIf="!disabled"
+  title="Link hinzufügen"
+>
   <fa-icon class="linkBar-add-icon" [icon]="addIcon"></fa-icon>
 </button>

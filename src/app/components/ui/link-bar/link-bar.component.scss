@@ -8,10 +8,8 @@
     align-items: center;
 }
 
-.linkBar-link {
-    
-}
-
+.linkBar-link,
 .linkBar-add {
     @include clear-btn-style();
+    padding: 0;
 }

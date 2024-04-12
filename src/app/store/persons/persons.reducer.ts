@@ -7,6 +7,9 @@ export const INITIAL_PERSONS_STATE: PersonsState = {
   data: {},
   nationalities: [],
   pending: 0,
+
+  links: [],
+  linksPending: false,
 };
 
 export const personsReducer = createReducer(
@@ -114,6 +117,51 @@ export const personsReducer = createReducer(
       return {
         ...state,
         pending,
+      };
+    }
+  ),
+  on(personsActions.getLinks, appActions.updateLink, (state: PersonsState) => {
+    return {
+      ...state,
+      linksPending: true,
+    };
+  }),
+  on(personsActions.getLinksSuccess, (state: PersonsState, { links }) => {
+    return {
+      ...state,
+      linksPending: false,
+      links,
+    };
+  }),
+  on(appActions.updateLinkSuccess, (state: PersonsState, { data }) => {
+    const links = [...state.links];
+    const index = links.findIndex((current) => current.id === data.id);
+
+    if (index !== -1) {
+      links[index] = data;
+
+      return {
+        ...state,
+        linksPending: false,
+        links,
+      };
+    } else {
+      links.push(data);
+
+      return {
+        ...state,
+        links,
+        linksPending: false,
+      };
+    }
+  }),
+  on(
+    personsActions.getLinksFailure,
+    appActions.updateLinkFailure,
+    (state: PersonsState) => {
+      return {
+        ...state,
+        linksPending: false,
       };
     }
   )

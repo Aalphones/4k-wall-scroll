@@ -4,6 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import {
   Figure,
   FigureInfo,
+  Link,
   Nationality,
   Person,
   PersonUpdate,
@@ -19,7 +20,7 @@ import {
   faSkull,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { Observable, shareReplay, switchMap, take } from 'rxjs';
+import { map, Observable, shareReplay, switchMap, take, tap } from 'rxjs';
 import { PersonFigureUpdate } from 'src/app/models/name/base.model';
 import { EditDialogComponent } from '../../edit-dialog/edit-dialog.component';
 import {
@@ -42,15 +43,25 @@ export class PersonComponent {
   readonly editIcon: IconProp = faPencil;
   readonly locationIcon: IconProp = faMapPin;
 
-  data$: Observable<Person | null> = this.route.params.pipe(
-    switchMap((params: Params) => {
-      return this.facade.getPersonsDetail$(params['id']);
+  id$: Observable<number> = this.route.params.pipe(
+    tap((params: Params) => {
+      this.facade.getPersonsLinks(params['id']);
     }),
-    shareReplay()
+    map((params: Params) => +params['id']),
+    shareReplay(1)
+  );
+
+  data$: Observable<Person | null> = this.id$.pipe(
+    switchMap((id: number) => {
+      return this.facade.getPersonsDetail$(id);
+    })
   );
 
   isAuthenticated = this.auth.isAuthenticated;
   isLoading$: Observable<boolean> = this.facade.personsLoading$;
+  isLinksLoading$: Observable<boolean> = this.facade.personsLinksLoading$;
+
+  links$: Observable<Link[]> = this.facade.personsLinks$;
 
   constructor(
     private facade: AppStateFacade,
@@ -134,5 +145,11 @@ export class PersonComponent {
             }
           });
       });
+  }
+
+  onUpdateLink(updated: Link): void {
+    this.id$.pipe(take(1)).subscribe((personId) => {
+      this.facade.updateLink({ ...updated, personId });
+    });
   }
 }

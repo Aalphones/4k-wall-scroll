@@ -56,6 +56,7 @@
             *ngIf="isAuthenticated"
             class="figure-personRoll-person-edit"
             (click)="onEditPerson($event, data.id, person)"
+            title="Verknüpfung editieren"
           >
             <fa-icon [icon]="editIcon"></fa-icon>
           </button>
@@ -63,6 +64,7 @@
             *ngIf="isAuthenticated"
             class="figure-personRoll-person-delete"
             (click)="onDeletePerson($event, person, data.id)"
+            title="Verknüpfung löschen"
           >
             <fa-icon [icon]="deleteIcon"></fa-icon>
           </button>
@@ -71,6 +73,7 @@
           *ngIf="isAuthenticated"
           class="figure-personRoll-add"
           (click)="onEditPerson($event, data.id)"
+          title="Verknüpfung hinzufügen"
         >
           <fa-icon [icon]="addIcon"></fa-icon>
         </button>

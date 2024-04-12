@@ -1,4 +1,4 @@
-import { Figure, FiguresState } from '@app/models';
+import { Figure, FiguresState, Link } from '@app/models';
 import { createReducer, on } from '@ngrx/store';
 import { appActions } from '../app.actions';
 import { figuresActions } from './figures.actions';
@@ -105,9 +105,9 @@ export const figuresReducer = createReducer(
   }),
   on(appActions.updateLinkSuccess, (state: FiguresState, { data }) => {
     const links = [...state.links];
-    const index = links.findIndex((current) => current.id === data.id);
+    const index = links.findIndex((current: Link) => current.id === data.id);
 
-    if (index) {
+    if (index !== -1) {
       links[index] = data;
 
       return {
@@ -116,8 +116,11 @@ export const figuresReducer = createReducer(
         links,
       };
     } else {
+      links.push(data);
+
       return {
         ...state,
+        links,
         linksPending: false,
       };
     }

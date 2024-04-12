@@ -1,4 +1,10 @@
-import { Nationality, Person, PersonsMap, PersonUpdate } from '@app/models';
+import {
+  Link,
+  Nationality,
+  Person,
+  PersonsMap,
+  PersonUpdate,
+} from '@app/models';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const personsActions = createActionGroup({
@@ -24,5 +30,13 @@ export const personsActions = createActionGroup({
       response: Person;
     }>(),
     'Update Failure': emptyProps(),
+
+    'Get Links': props<{
+      personId: number;
+    }>(),
+    'Get Links Success': props<{
+      links: Link[];
+    }>(),
+    'Get Links Failure': emptyProps(),
   },
 });

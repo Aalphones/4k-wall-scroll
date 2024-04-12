@@ -1,6 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Nationality, Person, PersonsMap, PersonUpdate } from '@app/models';
+import {
+  Link,
+  Nationality,
+  Person,
+  PersonsMap,
+  PersonUpdate,
+} from '@app/models';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { catchError, map, Observable, of, switchMap } from 'rxjs';
@@ -45,6 +51,24 @@ export class PersonsEffects implements OnInitEffects {
     )
   );
 
+  getLinkList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(personsActions.getLinks),
+      switchMap(({ personId }) => {
+        return this.fetchLinks$(personId).pipe(
+          map((links: Link[]) => {
+            return personsActions.getLinksSuccess({
+              links,
+            });
+          }),
+          catchError(() => {
+            return of(personsActions.getLinksFailure());
+          })
+        );
+      })
+    )
+  );
+
   update$ = createEffect(() =>
     this.actions$.pipe(
       ofType(personsActions.update),
@@ -67,6 +91,12 @@ export class PersonsEffects implements OnInitEffects {
 
   ngrxOnInitEffects(): Action {
     return personsActions.init();
+  }
+
+  private fetchLinks$(personId: number): Observable<Link[]> {
+    return this.http.get<Link[]>(`${environment.baseUrl}/link/`, {
+      params: { personId },
+    });
   }
 
   private fetchList$(): Observable<Person[]> {

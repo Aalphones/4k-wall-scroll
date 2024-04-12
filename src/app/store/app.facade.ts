@@ -62,6 +62,12 @@ export class AppStateFacade {
   );
 
   persons$: Observable<Person[]> = this.store$.select(personsSelectors.list);
+  personsLinks$: Observable<Link[]> = this.store$.select(
+    personsSelectors.selectLinks
+  );
+  personsLinksLoading$: Observable<boolean> = this.store$.select(
+    personsSelectors.selectLinksPending
+  );
   personsLoading$: Observable<boolean> = this.store$.select(
     personsSelectors.isLoading
   );
@@ -116,6 +122,10 @@ export class AppStateFacade {
 
   getPersonsDetail$(id: number): Observable<Person | null> {
     return this.store$.select(personsSelectors.detail(id));
+  }
+
+  getPersonsLinks(personId: number): void {
+    this.store$.dispatch(personsActions.getLinks({ personId }));
   }
 
   getPersonList(): void {
