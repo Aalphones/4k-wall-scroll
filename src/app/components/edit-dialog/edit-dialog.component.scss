@@ -33,18 +33,20 @@
             flex-direction: column;
         }
     }
-}
 
-.editDialog-label {
-    flex: 1;
-}
-
-.editDialog-textArea,
-.editDialog-number,
-.editDialog-input,
-.editDialog-date,
-.editDialog-select {
-    flex: 3;
+    &:not(.editDialog-form--grid) {
+        .editDialog-label {
+            flex: 1;
+        }
+        
+        .editDialog-textArea,
+        .editDialog-number,
+        .editDialog-input,
+        .editDialog-date,
+        .editDialog-select {
+            flex: 3;
+        }
+    }
 }
 
 .editDialog-wrapper {
