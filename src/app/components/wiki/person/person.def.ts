@@ -1,4 +1,5 @@
 import { Gender, Nationality } from '@app/models';
+import { sortData } from '@app/utils';
 import {
   EditDialogConfig,
   EditDialogType,
@@ -29,16 +30,6 @@ export const personConfig: (
     key: 'profession',
   },
   {
-    type: EditDialogType.Text,
-    label: 'Augenfarbe',
-    key: 'eye',
-  },
-  {
-    type: EditDialogType.Text,
-    label: 'Haarfarbe',
-    key: 'hair',
-  },
-  {
     type: EditDialogType.Number,
     label: 'Größe',
     key: 'height',
@@ -57,7 +48,7 @@ export const personConfig: (
     type: EditDialogType.Select,
     label: 'Nationalität',
     key: 'nationality',
-    options: nationalities.map((item: Nationality) => {
+    options: sortData(nationalities, 'name').map((item: Nationality) => {
       return {
         label: item.name,
         value: item.id,

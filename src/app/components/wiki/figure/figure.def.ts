@@ -1,4 +1,5 @@
 import { Franchise, Gender } from '@app/models';
+import { sortData } from '@app/utils';
 import {
   EditDialogConfig,
   EditDialogType,
@@ -29,20 +30,10 @@ export const figureConfig: (franchises: Franchise[]) => EditDialogConfig[] = (
     key: 'type',
   },
   {
-    type: EditDialogType.Text,
-    label: 'Augenfarbe',
-    key: 'eye',
-  },
-  {
-    type: EditDialogType.Text,
-    label: 'Haarfarbe',
-    key: 'hair',
-  },
-  {
     type: EditDialogType.Select,
     label: 'Franchise',
     key: 'franchise',
-    options: franchises.map((item: Franchise) => {
+    options: sortData(franchises, 'title').map((item: Franchise) => {
       return {
         label: item.title,
         value: item.id,

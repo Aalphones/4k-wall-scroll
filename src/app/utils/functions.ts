@@ -19,7 +19,7 @@ export function getExtensionFromName(name: string): string {
 export function sortData(
   data: any[],
   sortBy: string | null | undefined,
-  sortDir: SortingDirection,
+  sortDir: SortingDirection = SortingDirection.ASC,
   forDate: boolean = false
 ): any[] {
   if (!sortBy || !data || !sortDir) {

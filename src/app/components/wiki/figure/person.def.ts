@@ -1,4 +1,5 @@
 import { Person } from '@app/models';
+import { sortData } from '@app/utils';
 import {
   EditDialogConfig,
   EditDialogType,
@@ -18,7 +19,7 @@ export const personFigureConfig: (
     label: 'Person',
     key: 'personId',
     disabled,
-    options: persons.map((person: Person) => {
+    options: sortData(persons, 'title').map((person: Person) => {
       return {
         label: person.title,
         value: person.id,
