@@ -33,7 +33,7 @@ export function sortData(
     });
     sorted = mappedData.sort((a, b) => compare(a, b, sortBy));
   } else {
-    sorted = data.sort((a, b) => compare(a, b, sortBy));
+    sorted = [...data].sort((a, b) => compare(a, b, sortBy));
   }
 
   if (sortDir === SortingDirection.DESC) {

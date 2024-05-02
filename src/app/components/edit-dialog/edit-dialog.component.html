@@ -7,7 +7,7 @@
 >
   <div
     class="editDialog-wrapper"
-    [class.editDialog-wrapper--full]="config.type === EditDialogType.TextArea"
+    [class.editDialog-wrapper--full]="config.fullWidth"
     *ngFor="let config of dialogData.config"
     [ngSwitch]="config.type"
   >

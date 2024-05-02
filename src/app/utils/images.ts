@@ -38,7 +38,7 @@ export async function resizeImage(
       img.onload = () => {
         const imgSize: number = Math.min(img.width, img.height);
         const left: number = (img.width - imgSize) / 2;
-        const top: number = (img.height - imgSize) / 2;
+        const top: number = 0;
 
         // Create a canvas element
         const canvas = document.createElement('canvas');

@@ -2,7 +2,7 @@ import { Gender, Nationality } from '@app/models';
 import { sortData } from '@app/utils';
 import {
   EditDialogConfig,
-  EditDialogType,
+  EditDialogType
 } from '../../edit-dialog/edit-dialog.model';
 
 export const personConfig: (
@@ -10,14 +10,9 @@ export const personConfig: (
 ) => EditDialogConfig[] = (nationalities: Nationality[]) => [
   {
     type: EditDialogType.Image,
-    label: 'Vorschaufoto',
-    key: 'preview',
-    imageSize: 256,
-  },
-  {
-    type: EditDialogType.Image,
     label: 'Coverfoto',
     key: 'image',
+    fullWidth: true
   },
   {
     type: EditDialogType.Text,
@@ -74,5 +69,6 @@ export const personConfig: (
     type: EditDialogType.TextArea,
     label: 'Beschreibung',
     key: 'description',
+    fullWidth: true
   },
 ];

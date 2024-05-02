@@ -2,7 +2,7 @@ import { Franchise, Gender } from '@app/models';
 import { sortData } from '@app/utils';
 import {
   EditDialogConfig,
-  EditDialogType,
+  EditDialogType
 } from '../../edit-dialog/edit-dialog.model';
 
 export const figureConfig: (franchises: Franchise[]) => EditDialogConfig[] = (
@@ -10,14 +10,9 @@ export const figureConfig: (franchises: Franchise[]) => EditDialogConfig[] = (
 ) => [
   {
     type: EditDialogType.Image,
-    label: 'Vorschaufoto',
-    key: 'preview',
-    imageSize: 256,
-  },
-  {
-    type: EditDialogType.Image,
     label: 'Coverfoto',
     key: 'image',
+    fullWidth: true
   },
   {
     type: EditDialogType.Text,
@@ -64,5 +59,6 @@ export const figureConfig: (franchises: Franchise[]) => EditDialogConfig[] = (
     type: EditDialogType.TextArea,
     label: 'Beschreibung',
     key: 'description',
+    fullWidth: true
   },
 ];

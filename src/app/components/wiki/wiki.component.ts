@@ -12,16 +12,17 @@ import {
   Nationality,
   PersonInfo,
   PersonUpdate,
-  RollItem,
+  RollItem
 } from '@app/models';
 import { AuthGuardService } from '@app/services';
 import { AppStateFacade } from '@app/store';
-import { Observable, take } from 'rxjs';
+import { resizeImage } from '@app/utils';
+import { firstValueFrom, Observable } from 'rxjs';
 import { BaseRollDirective } from 'src/app/utils/base-roll.directive';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import {
   EditDialogData,
-  EditDialogLayout,
+  EditDialogLayout
 } from '../edit-dialog/edit-dialog.model';
 import { figureConfig } from './figure/figure.def';
 import { personConfig } from './person/person.def';
@@ -91,66 +92,72 @@ export class WikiComponent extends BaseRollDirective<RollItem> {
     });
   }
 
-  onAddFigure(): void {
-    this.facade.franchises$
-      .pipe(take(1))
-      .subscribe((franchises: Franchise[]) => {
-        const emptyFigure = getEmptyFigure();
-        const dialogRef: DialogRef<FigureUpdate | null> =
-          this.dialog.open<FigureUpdate | null>(EditDialogComponent, {
-            data: {
-              data: emptyFigure,
-              config: figureConfig(franchises),
-              layout: EditDialogLayout.grid,
-            },
-            width: '65rem',
-          });
+  async onAddFigure(): Promise<void> {
+    const franchises: Franchise[] = await firstValueFrom(this.facade.franchises$);
+    const emptyFigure = getEmptyFigure();
+    const dialogRef: DialogRef<FigureUpdate | null> = this.dialog.open<FigureUpdate | null>(EditDialogComponent, {
+      data: {
+        data: emptyFigure,
+        config: figureConfig(franchises),
+        layout: EditDialogLayout.grid,
+      },
+      width: '65rem',
+    });
 
-        dialogRef.closed
-          .pipe(take(1))
-          .subscribe((result: FigureUpdate | null | undefined) => {
-            if (result) {
-              this.facade.updateFigure({
-                ...emptyFigure,
-                ...result,
-                image: result.image ? result.image : undefined,
-                preview: result.preview ? result.preview : undefined,
-              });
-            }
-          });
+    const result: FigureUpdate | null | undefined = await firstValueFrom(dialogRef.closed);
+    if (result) {
+      const { preview, image } = await this.updateImage(result.image);
+
+      this.facade.updateFigure({
+        ...emptyFigure,
+        ...result,
+        description: result.description.replaceAll('"', "'"),
+        preview,
+        image,
       });
+    }
   }
 
-  onAddPerson(): void {
-    this.facade.nationalities$
-      .pipe(take(1))
-      .subscribe((nationalities: Nationality[]) => {
-        const emptyPerson = getEmptyPerson();
-        const data: EditDialogData<PersonUpdate | null> = {
-          data: emptyPerson,
-          config: personConfig(nationalities),
-          layout: EditDialogLayout.grid,
-        };
+  async onAddPerson(): Promise<void> {
+    const nationalities: Nationality[] = await firstValueFrom(this.facade.nationalities$);
+    const emptyPerson = getEmptyPerson();
+    const data: EditDialogData<PersonUpdate | null> = {
+      data: emptyPerson,
+      config: personConfig(nationalities),
+      layout: EditDialogLayout.grid,
+    };
 
-        const dialogRef: DialogRef<PersonUpdate | null> =
-          this.dialog.open<PersonUpdate | null>(EditDialogComponent, {
-            data,
-            width: '65rem',
-          });
-
-        dialogRef.closed
-          .pipe(take(1))
-          .subscribe((result: PersonUpdate | null | undefined) => {
-            if (result) {
-              this.facade.updatePerson({
-                ...emptyPerson,
-                ...result,
-                description: result.description.replaceAll('"', "'"),
-                image: result.image ? result.image : undefined,
-                preview: result.preview ? result.preview : undefined,
-              });
-            }
-          });
+    const dialogRef: DialogRef<PersonUpdate | null> =
+      this.dialog.open<PersonUpdate | null>(EditDialogComponent, {
+        data,
+        width: '65rem',
       });
+
+    const result: PersonUpdate | null | undefined = await firstValueFrom(dialogRef.closed);
+    if (result) {
+      const { preview, image } = await this.updateImage(result.image);
+
+      this.facade.updatePerson({
+        ...emptyPerson,
+        ...result,
+        description: result.description.replaceAll('"', "'"),
+        image,
+        preview
+      });
+    }
+  }
+
+  private async updateImage(base64: string | undefined): Promise<{image: string | undefined, preview: string | undefined}> {
+    if(!base64) {
+      return {image: undefined, preview: undefined};
+    }
+
+    const image = base64;
+    const preview =  await resizeImage(image, 256);
+
+    return {
+      image,
+      preview
+    }
   }
 }

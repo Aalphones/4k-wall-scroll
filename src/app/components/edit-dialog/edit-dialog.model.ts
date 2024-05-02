@@ -19,6 +19,7 @@ export interface EditDialogConfig {
   options?: Option[];
   imageSize?: number;
   disabled?: boolean;
+  fullWidth?: boolean;
 }
 
 export interface Option {

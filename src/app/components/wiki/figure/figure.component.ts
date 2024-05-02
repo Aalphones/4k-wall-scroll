@@ -7,13 +7,14 @@ import {
   Franchise,
   Link,
   Person,
-  PersonInfo,
+  PersonInfo
 } from '@app/models';
 import { AuthGuardService } from '@app/services';
 import { AppStateFacade } from '@app/store';
+import { resizeImage } from '@app/utils';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { map, Observable, shareReplay, switchMap, take, tap } from 'rxjs';
+import { firstValueFrom, map, Observable, shareReplay, switchMap, take, tap } from 'rxjs';
 import { PersonFigureUpdate } from 'src/app/models/name/base.model';
 import { environment } from 'src/environments/environment.prod';
 import { EditDialogComponent } from '../../edit-dialog/edit-dialog.component';
@@ -68,16 +69,16 @@ export class FigureComponent {
     private auth: AuthGuardService
   ) {}
 
-  onEditPerson(
+  async onEditPerson(
     event: Event,
     figureId: number,
     person: PersonInfo | null = null
-  ): void {
+  ): Promise<void> {
     event.stopPropagation();
     event.preventDefault();
 
-    this.facade.persons$.pipe(take(1)).subscribe((persons: Person[]) => {
-      const dialogRef: DialogRef<Partial<PersonFigureUpdate> | null> =
+    const persons: Person[] = await firstValueFrom(this.facade.persons$);
+    const dialogRef: DialogRef<Partial<PersonFigureUpdate> | null> =
         this.dialog.open<Partial<PersonFigureUpdate> | null>(
           EditDialogComponent,
           {
@@ -93,18 +94,14 @@ export class FigureComponent {
           }
         );
 
-      dialogRef.closed
-        .pipe(take(1))
-        .subscribe((result: Partial<PersonFigureUpdate> | null | undefined) => {
-          if (result?.personId && result.description) {
-            this.facade.updatePersonFigure(
-              figureId,
-              result.personId,
-              result.description
-            );
-          }
-        });
-    });
+    const result: Partial<PersonFigureUpdate> | null | undefined = await firstValueFrom(dialogRef.closed);
+    if (result) {
+      this.facade.updatePersonFigure(
+        figureId,
+        result.personId ?? person?.personId as number,
+        result.description ?? ''
+      );
+    }
   }
 
   onDeletePerson(event: Event, person: PersonInfo, figureId: number): void {
@@ -114,38 +111,48 @@ export class FigureComponent {
     this.facade.deletePersonFigure(figureId, person.personId);
   }
 
-  onOpenDialog(figure: Figure): void {
-    this.facade.franchises$
-      .pipe(take(1))
-      .subscribe((franchises: Franchise[]) => {
-        const dialogRef: DialogRef<FigureUpdate | null> =
-          this.dialog.open<FigureUpdate | null>(EditDialogComponent, {
-            data: {
-              data: { ...figure, franchise: figure.franchise.id },
-              config: figureConfig(franchises),
-              layout: EditDialogLayout.grid,
-            },
-            width: '65rem',
-          });
+  async onOpenDialog(figure: Figure): Promise<void> {
+    const franchises: Franchise[] = await firstValueFrom(this.facade.franchises$);
+    const dialogRef: DialogRef<FigureUpdate | null> = this.dialog.open<FigureUpdate | null>(EditDialogComponent, {
+      data: {
+        data: { ...figure, franchise: figure.franchise.id },
+        config: figureConfig(franchises),
+        layout: EditDialogLayout.grid,
+      },
+      width: '65rem',
+    });
 
-        dialogRef.closed
-          .pipe(take(1))
-          .subscribe((result: FigureUpdate | null | undefined) => {
-            if (result) {
-              this.facade.updateFigure({
-                ...figure,
-                ...result,
-                image: result.image ? result.image : undefined,
-                preview: result.preview ? result.preview : undefined,
-              });
-            }
-          });
+    const result: FigureUpdate | null | undefined = await firstValueFrom(dialogRef.closed);
+    if (result) {
+      const { preview, image } = await this.updateImage(result.image);
+
+      this.facade.updateFigure({
+        ...figure,
+        ...result,
+        description: result.description.replaceAll('"', "'"),
+        preview,
+        image,
       });
+    }
   }
 
   onUpdateLink(updated: Link): void {
     this.id$.pipe(take(1)).subscribe((figureId) => {
       this.facade.updateLink({ ...updated, figureId });
     });
+  }
+
+  private async updateImage(base64: string | undefined): Promise<{image: string | undefined, preview: string | undefined}> {
+    if(!base64) {
+      return {image: undefined, preview: undefined};
+    }
+
+    const image = base64;
+    const preview =  await resizeImage(image, 256);
+
+    return {
+      image,
+      preview
+    }
   }
 }
