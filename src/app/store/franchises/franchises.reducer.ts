@@ -41,6 +41,7 @@ export const franchisesReducer = createReducer(
       ...state,
       pending,
       data: {
+        ...state.data,
         [data.id]: data,
       },
     };

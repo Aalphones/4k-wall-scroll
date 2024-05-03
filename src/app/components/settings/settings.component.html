@@ -1,6 +1,7 @@
 <app-franchises
   class="settings-franchise"
   [data]="franchises$ | async"
+  (update)="onUpdateFranchise($event)"
 ></app-franchises>
 <app-nationalities
   class="settings-national"

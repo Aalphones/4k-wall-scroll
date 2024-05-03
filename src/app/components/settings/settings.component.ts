@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NationalityUpdate } from '@app/models';
+import { FranchiseUpdate, NationalityUpdate } from '@app/models';
 import { AppStateFacade } from '@app/store';
 
 @Component({
@@ -12,6 +12,10 @@ export class SettingsComponent {
   nationalities$ = this.facade.nationalities$;
 
   constructor(private facade: AppStateFacade) {}
+
+  onUpdateFranchise(updated: FranchiseUpdate): void {
+    this.facade.updateFranchise(updated);
+  }
 
   onUpdateNationality(updated: NationalityUpdate): void {
     this.facade.updateNationality(updated);

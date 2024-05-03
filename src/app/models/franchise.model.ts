@@ -6,6 +6,12 @@ export interface Franchise {
   parentId: number | null;
 }
 
+export interface FranchiseUpdate extends Franchise {
+  image?: string;
+  preview?: string;
+  cover?: string;
+}
+
 export interface FranchiseInfo {
   id: number;
   title: string;

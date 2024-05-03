@@ -1,1 +1,10 @@
-<p>franchises works!</p>
+<h3 class="franchises-header">Nationalitäten</h3>
+
+<app-franchise
+  class="franchises-item"
+  *ngFor="let item of data"
+  [data]="item"
+  (click)="onEdit(item)"
+></app-franchise>
+
+<button class="franchises-add" (click)="onEdit()">Franchise hinzufügen</button>

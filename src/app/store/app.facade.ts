@@ -3,6 +3,7 @@ import {
   Figure,
   FigureUpdate,
   Franchise,
+  FranchiseUpdate,
   ImagesMap,
   ImagesState,
   Link,
@@ -141,7 +142,7 @@ export class AppStateFacade {
     this.store$.dispatch(figuresActions.update({ data }));
   }
 
-  updateFranchise(data: Franchise): void {
+  updateFranchise(data: FranchiseUpdate): void {
     this.store$.dispatch(franchisesActions.update({ data }));
   }
 

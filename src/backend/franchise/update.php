@@ -29,17 +29,17 @@ $sql = "REPLACE INTO franchise(id, parentId, description, title) VALUES(" .
 sqlExecute($sql);
 
 if (isset($data->preview)) {
-	$preview_file = $path . '../../../media/franchise/preview/' . $data->id . '.jpg';
+	$preview_file = $path . '../../media/franchise/preview/' . $data->id . '.jpg';
 	base64_to_disk($data->preview, $preview_file);
 }
 
-if (isset($data->cover)) {
-	$cover_file = $path . '../../../media/franchise/cover/' . $data->id . '.jpg';
-	base64_to_disk($data->cover, $cover_file);
+if (isset($data->image)) {
+	$cover_file = $path . '../../media/franchise/cover/' . $data->id . '.jpg';
+	base64_to_disk($data->image, $cover_file);
 }
 
 if (isset($data->logo)) {
-	$logo_file = $path . '../../../media/franchise/logo/' . $data->id . '.png';
+	$logo_file = $path . '../../media/franchise/logo/' . $data->id . '.png';
 	base64_to_disk($data->logo, $logo_file);
 }
 
