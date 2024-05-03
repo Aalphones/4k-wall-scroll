@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './components/about/about.component';
 import { LoginComponent } from './components/login/login.component';
-import { UploadComponent } from './components/upload/upload.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { AuthGuardService } from './services';
 
 const routes: Routes = [
@@ -13,22 +13,17 @@ const routes: Routes = [
     component: AboutComponent,
   },
   {
-    path: 'upload',
-    canActivate: [AuthGuardService],
-    loadChildren: () =>
-      import('./components/upload/upload.module').then((m) => m.UploadModule),
-    component: UploadComponent,
-  },
-  {
     path: 'login',
     loadChildren: () =>
       import('./components/login/login.module').then((m) => m.LoginModule),
     component: LoginComponent,
   },
   {
-    path: 'roll',
+    path: 'settings',
     loadChildren: () =>
-      import('./components/roll/roll.module').then((m) => m.RollModule),
+      import('./components/settings/settings.module').then((m) => m.SettingsModule),
+    canActivate: [AuthGuardService],
+    component: SettingsComponent,
   },
   {
     path: '',

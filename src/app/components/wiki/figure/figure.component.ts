@@ -7,14 +7,22 @@ import {
   Franchise,
   Link,
   Person,
-  PersonInfo
+  PersonInfo,
 } from '@app/models';
 import { AuthGuardService } from '@app/services';
 import { AppStateFacade } from '@app/store';
-import { resizeImage } from '@app/utils';
+import { updateImage } from '@app/utils';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { firstValueFrom, map, Observable, shareReplay, switchMap, take, tap } from 'rxjs';
+import {
+  firstValueFrom,
+  map,
+  Observable,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { PersonFigureUpdate } from 'src/app/models/name/base.model';
 import { environment } from 'src/environments/environment.prod';
 import { EditDialogComponent } from '../../edit-dialog/edit-dialog.component';
@@ -79,26 +87,27 @@ export class FigureComponent {
 
     const persons: Person[] = await firstValueFrom(this.facade.persons$);
     const dialogRef: DialogRef<Partial<PersonFigureUpdate> | null> =
-        this.dialog.open<Partial<PersonFigureUpdate> | null>(
-          EditDialogComponent,
-          {
+      this.dialog.open<Partial<PersonFigureUpdate> | null>(
+        EditDialogComponent,
+        {
+          data: {
+            config: personFigureConfig(persons, !!person),
             data: {
-              config: personFigureConfig(persons, !!person),
-              data: {
-                figureId,
-                personId: person?.personId ?? null,
-                description: person?.description ?? '',
-              },
+              figureId,
+              personId: person?.personId ?? null,
+              description: person?.description ?? '',
             },
-            width: '35rem',
-          }
-        );
+          },
+          width: '35rem',
+        }
+      );
 
-    const result: Partial<PersonFigureUpdate> | null | undefined = await firstValueFrom(dialogRef.closed);
+    const result: Partial<PersonFigureUpdate> | null | undefined =
+      await firstValueFrom(dialogRef.closed);
     if (result) {
       this.facade.updatePersonFigure(
         figureId,
-        result.personId ?? person?.personId as number,
+        result.personId ?? (person?.personId as number),
         result.description ?? ''
       );
     }
@@ -112,19 +121,24 @@ export class FigureComponent {
   }
 
   async onOpenDialog(figure: Figure): Promise<void> {
-    const franchises: Franchise[] = await firstValueFrom(this.facade.franchises$);
-    const dialogRef: DialogRef<FigureUpdate | null> = this.dialog.open<FigureUpdate | null>(EditDialogComponent, {
-      data: {
-        data: { ...figure, franchise: figure.franchise.id },
-        config: figureConfig(franchises),
-        layout: EditDialogLayout.grid,
-      },
-      width: '65rem',
-    });
+    const franchises: Franchise[] = await firstValueFrom(
+      this.facade.franchises$
+    );
+    const dialogRef: DialogRef<FigureUpdate | null> =
+      this.dialog.open<FigureUpdate | null>(EditDialogComponent, {
+        data: {
+          data: { ...figure, franchise: figure.franchise.id },
+          config: figureConfig(franchises),
+          layout: EditDialogLayout.grid,
+        },
+        width: '65rem',
+      });
 
-    const result: FigureUpdate | null | undefined = await firstValueFrom(dialogRef.closed);
+    const result: FigureUpdate | null | undefined = await firstValueFrom(
+      dialogRef.closed
+    );
     if (result) {
-      const { preview, image } = await this.updateImage(result.image);
+      const { preview, image } = await updateImage(result.image);
 
       this.facade.updateFigure({
         ...figure,
@@ -140,19 +154,5 @@ export class FigureComponent {
     this.id$.pipe(take(1)).subscribe((figureId) => {
       this.facade.updateLink({ ...updated, figureId });
     });
-  }
-
-  private async updateImage(base64: string | undefined): Promise<{image: string | undefined, preview: string | undefined}> {
-    if(!base64) {
-      return {image: undefined, preview: undefined};
-    }
-
-    const image = base64;
-    const preview =  await resizeImage(image, 256);
-
-    return {
-      image,
-      preview
-    }
   }
 }

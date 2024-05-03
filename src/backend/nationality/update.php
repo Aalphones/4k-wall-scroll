@@ -35,12 +35,12 @@ $sql = "REPLACE INTO nationality(id, name) VALUES(" .
 sqlExecute($sql);
 
 if (isset($data->preview)) {
-	$thumb_file = $path . '../../../media/flags/preview/' . $data->id . '.jpg';
+	$thumb_file = $path . '../../media/flags/preview/' . $data->id . '.jpg';
 	base64_to_disk($data->preview, $thumb_file);
 }
 
 if (isset($data->image)) {
-	$image_file = $path . '../../../media/flags/' . $data->id . '.jpg';
+	$image_file = $path . '../../media/flags/' . $data->id . '.jpg';
 	base64_to_disk($data->image, $image_file);
 }
 

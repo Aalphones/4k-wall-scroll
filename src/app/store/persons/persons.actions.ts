@@ -1,6 +1,7 @@
 import {
   Link,
   Nationality,
+  NationalityUpdate,
   Person,
   PersonsMap,
   PersonUpdate,
@@ -21,6 +22,14 @@ export const personsActions = createActionGroup({
       data: Nationality[];
     }>(),
     'Get Nationalities Failure': emptyProps(),
+
+    'Update Nationality': props<{
+      data: NationalityUpdate;
+    }>(),
+    'Update Nationality Success': props<{
+      data: NationalityUpdate;
+    }>(),
+    'Update Nationality Failure': emptyProps(),
 
     INIT: emptyProps(),
     Update: props<{

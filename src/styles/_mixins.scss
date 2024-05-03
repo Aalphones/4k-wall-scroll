@@ -94,3 +94,19 @@
     box-shadow: var(--shadow-depth-2);
   }
 }
+
+@mixin link {
+  cursor: pointer;
+  color: var(--secondary);
+  transition: all 0.3s ease;
+
+  &:hover,
+  &:focus {
+    color: var(--highlight);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

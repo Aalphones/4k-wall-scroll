@@ -1,4 +1,4 @@
-import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
+import { DEFAULT_DIALOG_CONFIG, DialogModule } from '@angular/cdk/dialog';
 import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
@@ -18,7 +18,7 @@ import {
   FranchisesEffects,
   franchisesReducer,
   PersonsEffects,
-  personsReducer,
+  personsReducer
 } from './store';
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -44,6 +44,7 @@ registerLocaleData(localeDe, 'de-DE', localeDeExtra);
       FiguresEffects,
       PersonsEffects,
     ]),
+    DialogModule
   ],
   providers: [
     {

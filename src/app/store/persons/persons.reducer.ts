@@ -63,6 +63,7 @@ export const personsReducer = createReducer(
 
   on(
     personsActions.update,
+    personsActions.updateNationality,
     appActions.updatePersonFigure,
     (state: PersonsState) => {
       const pending = state.pending + 1;
@@ -110,6 +111,7 @@ export const personsReducer = createReducer(
     personsActions.getNationalitiesFailure,
     personsActions.getListFailure,
     personsActions.updateFailure,
+    personsActions.updateNationalityFailure,
     appActions.updatePersonFigureFailure,
     (state: PersonsState) => {
       const pending = state.pending - 1;
@@ -162,6 +164,28 @@ export const personsReducer = createReducer(
       return {
         ...state,
         linksPending: false,
+      };
+    }
+  ),
+  on(
+    personsActions.updateNationalitySuccess,
+    (state: PersonsState, { data }) => {
+      const pending = state.pending - 1;
+      const nationalities = [...state.nationalities];
+      const index = state.nationalities.findIndex(
+        (item) => item.id === data.id
+      );
+
+      if (index !== -1) {
+        nationalities[index] = data;
+      } else {
+        nationalities.push(data);
+      }
+
+      return {
+        ...state,
+        pending,
+        nationalities,
       };
     }
   )

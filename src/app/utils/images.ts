@@ -72,3 +72,20 @@ export async function resizeImage(
     return Promise.reject(error);
   }
 }
+
+export async function updateImage(
+  base64: string | undefined,
+  targetSize = 256
+): Promise<{ image: string | undefined; preview: string | undefined }> {
+  if (!base64) {
+    return { image: undefined, preview: undefined };
+  }
+
+  const image = base64;
+  const preview = await resizeImage(image, targetSize);
+
+  return {
+    image,
+    preview,
+  };
+}

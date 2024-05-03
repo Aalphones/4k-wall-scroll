@@ -1,9 +1,9 @@
+import { DialogModule } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ErrorModule } from '../error/error.module';
 import { FilterModule, PaginationModule } from '../ui';
 import { WikiPreviewComponent } from '../ui/preview/wiki-preview.component';
-import { FranchiseModule } from './franchise/franchise.module';
 import { WikiRoutingModule } from './wiki-routing.module';
 import { WikiComponent } from './wiki.component';
 
@@ -12,7 +12,7 @@ import { WikiComponent } from './wiki.component';
   imports: [
     CommonModule,
     WikiRoutingModule,
-    FranchiseModule,
+    DialogModule,
     ErrorModule,
     FilterModule,
     PaginationModule,

@@ -1,0 +1,12 @@
+<h3 class="nationalities-header">Nationalitäten</h3>
+
+<app-nationality
+  class="nationalities-item"
+  *ngFor="let item of data"
+  [data]="item"
+  (click)="onEdit(item)"
+></app-nationality>
+
+<button class="nationalities-add" (click)="onEdit()">
+  Nationalität hinzufügen
+</button>

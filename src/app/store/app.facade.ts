@@ -7,6 +7,7 @@ import {
   ImagesState,
   Link,
   Nationality,
+  NationalityUpdate,
   Person,
   PersonUpdate,
   RollItem,
@@ -139,12 +140,17 @@ export class AppStateFacade {
   updateFigure(data: FigureUpdate): void {
     this.store$.dispatch(figuresActions.update({ data }));
   }
+
   updateFranchise(data: Franchise): void {
     this.store$.dispatch(franchisesActions.update({ data }));
   }
 
   updateLink(data: Link): void {
     this.store$.dispatch(appActions.updateLink({ data }));
+  }
+
+  updateNationality(data: NationalityUpdate): void {
+    this.store$.dispatch(personsActions.updateNationality({ data }));
   }
 
   updatePerson(data: PersonUpdate): void {

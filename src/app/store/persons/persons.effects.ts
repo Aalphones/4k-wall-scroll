@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   Link,
   Nationality,
+  NationalityUpdate,
   Person,
   PersonsMap,
   PersonUpdate,
@@ -87,6 +88,22 @@ export class PersonsEffects implements OnInitEffects {
     )
   );
 
+  updateNationality$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(personsActions.updateNationality),
+      switchMap(({ data }) => {
+        return this.postUpdateNationality$(data).pipe(
+          map(() => {
+            return personsActions.updateNationalitySuccess({ data });
+          }),
+          catchError(() => {
+            return of(personsActions.updateNationalityFailure());
+          })
+        );
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private http: HttpClient) {}
 
   ngrxOnInitEffects(): Action {
@@ -105,6 +122,13 @@ export class PersonsEffects implements OnInitEffects {
 
   private fetchNationalities$(): Observable<Nationality[]> {
     return this.http.get<Nationality[]>(`${environment.baseUrl}/nationality/`);
+  }
+
+  private postUpdateNationality$(request: NationalityUpdate): Observable<void> {
+    return this.http.post<void>(
+      `${environment.baseUrl}/nationality/update.php`,
+      request
+    );
   }
 
   private updatePerson$(request: PersonUpdate): Observable<Person> {

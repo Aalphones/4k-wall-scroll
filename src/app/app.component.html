@@ -8,6 +8,14 @@
   <p class="footer-text">Web app created with ❤️ and ☕️</p>
   <a class="footer-about" href [routerLink]="['about']">About</a>
   <a
+    *ngIf="isAuthenticated"
+    class="footer-login"
+    href
+    [routerLink]="['settings']"
+  >
+    Einstellungen
+  </a>
+  <a
     *ngIf="!isAuthenticated"
     class="footer-login"
     href
